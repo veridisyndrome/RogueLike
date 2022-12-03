@@ -19,7 +19,7 @@ public abstract class ICRogueRoom extends Area {
 
     @Override
     public final float getCameraScaleFactor() {
-        return 11f; /*Tuto2.CAMERA_SCALE_FACTOR;*/
+        return 11;
     }
 
     @Override

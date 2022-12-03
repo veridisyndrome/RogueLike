@@ -7,6 +7,8 @@ import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Button;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -18,9 +20,25 @@ public class ICRogue extends AreaGame {
         currentRoom = new Level0Room(new DiscreteCoordinates(0, 0));
         addArea(currentRoom);
         setCurrentArea(currentRoom.getTitle(), true);
-        // ICRoguePlayer = new ICRoguePlayer();
-        //  currentRoom.registerActor(ICRoguePlayer);
+        ICRoguePlayer = new ICRoguePlayer(currentRoom, Orientation.UP, new DiscreteCoordinates(2,2));
+        currentRoom.registerActor(ICRoguePlayer);
 
+    }
+
+
+    public void update(float deltatime){
+        super.update(deltatime);
+        Keyboard keyboard= getWindow().getKeyboard();
+
+        Button buttonR = keyboard.get(Keyboard.R);
+        if(buttonR.isDown()){
+            reset();
+        }
+
+    }
+
+    private void reset() {
+        begin(getWindow(), getFileSystem());
     }
 
     public boolean begin(Window window, FileSystem fileSystem) {
