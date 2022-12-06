@@ -62,6 +62,9 @@ public class ICRogueBehavior extends AreaBehavior {
             this.type = type;
         }
 
+        public ICRogueCellType getType() {
+            return this.type;
+        }
 
         @Override
         protected boolean canLeave(Interactable entity) {

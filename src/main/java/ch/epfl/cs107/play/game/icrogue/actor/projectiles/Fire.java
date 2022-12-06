@@ -11,9 +11,13 @@ import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.window.Canvas;
 
-public class Fire extends Projectile {
+import static ch.epfl.cs107.play.game.icrogue.ICRogueBehavior.ICRogueCellType.HOLE;
+import static ch.epfl.cs107.play.game.icrogue.ICRogueBehavior.ICRogueCellType.WALL;
+
+public class Fire extends Projectile implements ICRogueInteractionHandler{
+    private final FireInteractionHandler handler = new FireInteractionHandler();
+
     public Fire(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         this.damagePts = 1;

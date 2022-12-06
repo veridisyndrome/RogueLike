@@ -1,9 +1,15 @@
 package ch.epfl.cs107.play.game.icrogue.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
+import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -11,21 +17,22 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.Collections;
+import java.util.List;
 
-public class ICRoguePlayer extends ICRogueActor {
+
+public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private static final float MOVE_DURATION = 0.25f;
     private final Sprite down;
     private final Sprite right;
     private final Sprite up;
     private final Sprite left;
-
-
-
+    private boolean canHaveInteraction;
+    private boolean staffCollected;
+    private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
 
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-
-
         //bas
         down = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
         // droite
@@ -50,10 +57,12 @@ public class ICRoguePlayer extends ICRogueActor {
         timeToFire += deltaTime;
 
 
-        if(keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F)){
+        if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F) && staffCollected){
             launchFire(getOrientation());
             timeToFire = 0;
         }
+
+        canHaveInteraction = keyboard.get(Keyboard.W).isDown();
 
         super.update(deltaTime);
     }
