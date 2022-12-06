@@ -12,7 +12,7 @@ public class Fire extends Projectile {
     public Fire(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         this.damagePts = 1;
-        this.frames = 5;
+        this.frames = 10;
 
         setSprite(new Sprite("zelda/fire", 1f, 1f, this, new RegionOfInterest(0, 0, 16, 16), new Vector(0, 0)));
     }

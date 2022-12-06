@@ -19,6 +19,8 @@ public abstract class Item extends CollectableAreaEntity {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
+
+
     @Override
     public boolean takeCellSpace() {
         return false;

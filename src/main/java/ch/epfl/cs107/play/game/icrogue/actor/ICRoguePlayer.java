@@ -13,7 +13,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 
 public class ICRoguePlayer extends ICRogueActor {
-    private static final int MOVE_DURATION = 8;
+    private static final float MOVE_DURATION = 0.25f;
     private final Sprite down;
     private final Sprite right;
     private final Sprite up;
@@ -37,37 +37,39 @@ public class ICRoguePlayer extends ICRogueActor {
 
     }
 
-    public void update(float deltatime) {
+    private float timeToFire = 1.0F;
+
+    public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
 
-        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT), deltaTime);
+        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP), deltaTime);
+        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT), deltaTime);
+        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN), deltaTime);
 
-        if(keyboard.get(Keyboard.X).isDown()){
+        timeToFire += deltaTime;
+
+        if(keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F)){
             launchFire(getOrientation());
+            timeToFire = 0;
         }
 
-        super.update(deltatime);
+        super.update(deltaTime);
     }
 
     public void launchFire(Orientation orientation) {
-
         final Fire fire = new Fire(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
         getOwnerArea().registerActor(fire);
     }
 
 
-    private void moveIfPressed(Orientation orientation, Button b) {
+    private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
         if (b.isDown()) {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
-                move(MOVE_DURATION);
+                move((int)(MOVE_DURATION/deltaTime));
             }
         }
-
-
     }
 
 

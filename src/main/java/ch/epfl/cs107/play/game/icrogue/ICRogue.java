@@ -62,4 +62,8 @@ public class ICRogue extends AreaGame {
         return "ICRogue";
     }
 
+    @Override
+    public int getFrameRate() {
+        return 60;
+    }
 }
