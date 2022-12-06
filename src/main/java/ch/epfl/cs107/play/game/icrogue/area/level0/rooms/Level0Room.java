@@ -17,5 +17,7 @@ public class Level0Room extends ICRogueRoom {
         return "icrogue/level0" + roomCoordinates.x + roomCoordinates.y;
     }
 
+
+
 }
 

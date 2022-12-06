@@ -1,16 +1,17 @@
-package ch.epfl.cs107.play.game.icrogue.actor;
+package ch.epfl.cs107.play.game.icrogue.actor.items;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
+import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ICRogueActor extends MovableAreaEntity {
-    public ICRogueActor(Area area, Orientation orientation, DiscreteCoordinates position) {
-        super(area, orientation, position);
+public abstract class Item extends CollectableAreaEntity {
+    public Item(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected) {
+        super(area, orientation, position, isCollected);
     }
 
     @Override
