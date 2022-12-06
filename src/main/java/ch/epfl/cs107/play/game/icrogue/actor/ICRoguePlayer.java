@@ -49,6 +49,7 @@ public class ICRoguePlayer extends ICRogueActor {
 
         timeToFire += deltaTime;
 
+
         if(keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F)){
             launchFire(getOrientation());
             timeToFire = 0;
@@ -57,10 +58,13 @@ public class ICRoguePlayer extends ICRogueActor {
         super.update(deltaTime);
     }
 
+
+
     public void launchFire(Orientation orientation) {
         final Fire fire = new Fire(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
         getOwnerArea().registerActor(fire);
     }
+
 
 
     private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
@@ -81,6 +85,47 @@ public class ICRoguePlayer extends ICRogueActor {
             case RIGHT -> right.draw(canvas);
             case DOWN -> down.draw(canvas);
             case LEFT -> left.draw(canvas);
+        }
+    }
+
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return Collections.singletonList (getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return canHaveInteraction;
+    }
+
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
+        other.acceptInteraction(handler, isCellInteraction);
+    }
+
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
+    }
+
+    public class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler {
+        @Override
+        public void interactWith(Cherry cherry, boolean isCellInteraction) {
+            if (isCellInteraction) {
+                cherry.collect();
+            }
+        }
+
+        @Override
+        public void interactWith(Staff staff, boolean isCellInteraction) {
+            if (!isCellInteraction) {
+                staff.collect();
+                staffCollected = true;
+            }
         }
     }
 }

@@ -32,9 +32,4 @@ public abstract class ICRogueActor extends MovableAreaEntity {
     public boolean isViewInteractable() {
         return true;
     }
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
-    }
 }

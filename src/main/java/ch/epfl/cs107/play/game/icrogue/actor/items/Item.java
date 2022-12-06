@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.Collections;
@@ -12,14 +13,13 @@ import java.util.List;
 public abstract class Item extends CollectableAreaEntity {
     public Item(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected) {
         super(area, orientation, position, isCollected);
+
     }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
-
-
 
     @Override
     public boolean takeCellSpace() {
@@ -34,10 +34,5 @@ public abstract class Item extends CollectableAreaEntity {
     @Override
     public boolean isViewInteractable() {
         return true;
-    }
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
     }
 }

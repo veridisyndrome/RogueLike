@@ -3,6 +3,8 @@ package ch.epfl.cs107.play.game.icrogue;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
+import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.game.tutosSolution.Tuto2Behavior;
 import ch.epfl.cs107.play.window.Window;
 
@@ -87,12 +89,12 @@ public class ICRogueBehavior extends AreaBehavior {
 
         @Override
         public boolean isViewInteractable() {
-            return false;
+            return true;
         }
 
         @Override
         public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
+            ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
         }
     }
 }
