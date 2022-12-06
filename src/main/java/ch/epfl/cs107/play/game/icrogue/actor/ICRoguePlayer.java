@@ -137,5 +137,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 staffCollected = true;
             }
         }
+
+        @Override
+        public void interactWith(Key key, boolean isCellInteraction) {
+            if (isCellInteraction) {
+                key.collect();
+            }
+        }
     }
 }

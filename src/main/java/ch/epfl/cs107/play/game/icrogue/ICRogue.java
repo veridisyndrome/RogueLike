@@ -20,6 +20,7 @@ public class ICRogue extends AreaGame {
     protected ICRoguePlayer ICRoguePlayer;
     protected Staff staff;
     protected Cherry cherry;
+    protected Key key;
 
     public void initLevel() {
         currentRoom = new Level0Room(new DiscreteCoordinates(0, 0));
@@ -31,6 +32,8 @@ public class ICRogue extends AreaGame {
         currentRoom.registerActor(staff);
         cherry = new Cherry(currentRoom, Orientation.UP, new DiscreteCoordinates(6,3), false);
         currentRoom.registerActor(cherry);
+        key = new Key(currentRoom, Orientation.UP, new DiscreteCoordinates(8,3), false);
+        currentRoom.registerActor(key);
 
     }
 
