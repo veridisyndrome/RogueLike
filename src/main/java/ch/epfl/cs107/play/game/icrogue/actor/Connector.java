@@ -14,10 +14,8 @@ import java.util.List;
 public class Connector extends AreaEntity {
 
     private ConnectorState state = ConnectorState.INVISIBLE;
-
-    public boolean isLocked() {
-        return state == ConnectorState.LOCKED;
-    }
+    private String destinationArea;
+    private DiscreteCoordinates destinationCoords;
 
     public boolean isClosed() {
         return state == ConnectorState.CLOSED;
@@ -38,9 +36,9 @@ public class Connector extends AreaEntity {
         this.keyId = keyId;
     }
 
-    public void setDestination(String destinationArea, DiscreteCoordinates startCoords) {
+    public void setDestination(String destinationArea, DiscreteCoordinates destinationCoords) {
         this.destinationArea = destinationArea;
-        this.startCoords = startCoords;
+        this.destinationCoords = destinationCoords;
     }
 
     private enum ConnectorState {

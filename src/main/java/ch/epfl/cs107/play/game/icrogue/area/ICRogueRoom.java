@@ -53,10 +53,9 @@ public abstract class ICRogueRoom extends Area {
         }
     }
 
-    public setConnectorDestination(int index, String destinationArea, DiscreteCoordinates startCoords) {
-        connectors.get(index).setDestination();
+    public void setConnectorDestination(int index, String destinationArea, DiscreteCoordinates destinationCoords) {
+        connectors.get(index).setDestination(destinationArea, destinationCoords);
     }
-
 
     boolean isPressed = false;
     @Override
@@ -77,17 +76,6 @@ public abstract class ICRogueRoom extends Area {
 
 
         if (keyboard.get(Keyboard.T).isDown() && !isPressed) {
-            /*for (Connector connector : connectors)
-            {
-                if (!connector.isLocked()) {
-                    if (connector.isOpen()) {
-                        connector.close();
-                    } else if (connector.isClosed()) {
-                        connector.open();
-                    }
-                }
-            }*/
-
             for (Connector connector : connectors) {
                 if(connector.isOpen()) {
                     connector.close();
@@ -97,7 +85,13 @@ public abstract class ICRogueRoom extends Area {
             }
         }
         isPressed = keyboard.get(Keyboard.T).isDown();
+    }
 
+    public void closeConnector(int index) {
+        connectors.get(index).close();
+    }
 
+    public void lockConnector(int index, int keyID) {
+        connectors.get(index).lock(keyID);
     }
 }
