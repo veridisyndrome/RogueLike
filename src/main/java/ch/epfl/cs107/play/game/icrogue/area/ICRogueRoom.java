@@ -4,25 +4,30 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Background;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
+import ch.epfl.cs107.play.game.icrogue.actor.Connector;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public abstract class ICRogueRoom extends Area {
 
     private final String behaviorName;
-    protected static final DiscreteCoordinates roomCoordinates;
-    private final List<DiscreteCoordinates> connectorsCoordinates;
-    private final List<Orientation> orientations ;
-
+    private final DiscreteCoordinates roomCoordinates;
+    private final List<Connector> connectors;
 
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations, String behaviorName, DiscreteCoordinates roomCoordinates) {
-        this.connectorsCoordinates = connectorsCoordinates;
-        this.orientations = orientations;
         this.behaviorName = behaviorName;
         this.roomCoordinates = roomCoordinates;
+        connectors = new ArrayList<>();
+
+        for (int i = 0; i < connectorsCoordinates.size(); i++) {
+            connectors.add(new Connector(this, orientations.get(i).opposite(), connectorsCoordinates.get(i)));
+        }
     }
 
     @Override
@@ -33,10 +38,66 @@ public abstract class ICRogueRoom extends Area {
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
-            setBehavior(new ICRogueBehavior(window, behaviorName));
-            registerActor(new Background(this, behaviorName));
+            createArea(window);
             return true;
         }
         return false;
+    }
+
+    private void createArea(Window window) {
+        setBehavior(new ICRogueBehavior(window, behaviorName));
+        registerActor(new Background(this, behaviorName));
+
+        for (Connector connector : connectors) {
+            registerActor(connector);
+        }
+    }
+
+    public setConnectorDestination(int index, String destinationArea, DiscreteCoordinates startCoords) {
+        connectors.get(index).setDestination();
+    }
+
+
+    boolean isPressed = false;
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        final Keyboard keyboard = getKeyboard();
+
+        if (keyboard.get(Keyboard.O).isDown()) {
+            for (Connector connector : connectors) {
+                connector.open();
+            }
+        }
+
+        if (keyboard.get(Keyboard.L).isDown()) {
+            connectors.get(0).lock(1);
+
+        }
+
+
+        if (keyboard.get(Keyboard.T).isDown() && !isPressed) {
+            /*for (Connector connector : connectors)
+            {
+                if (!connector.isLocked()) {
+                    if (connector.isOpen()) {
+                        connector.close();
+                    } else if (connector.isClosed()) {
+                        connector.open();
+                    }
+                }
+            }*/
+
+            for (Connector connector : connectors) {
+                if(connector.isOpen()) {
+                    connector.close();
+                } else if(connector.isClosed()){
+                    connector.open();
+                }
+            }
+        }
+        isPressed = keyboard.get(Keyboard.T).isDown();
+
+
     }
 }

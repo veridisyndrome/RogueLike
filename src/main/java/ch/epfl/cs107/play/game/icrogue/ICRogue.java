@@ -48,6 +48,7 @@ public class ICRogue extends AreaGame {
             reset();
         }
 
+
     }
 
     private void reset() {

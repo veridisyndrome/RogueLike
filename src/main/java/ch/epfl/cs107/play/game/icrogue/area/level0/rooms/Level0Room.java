@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.icrogue.area.ConnectorInRoom;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +13,12 @@ import java.util.List;
  */
 public class Level0Room extends ICRogueRoom {
 
+    private DiscreteCoordinates roomCoordinates;
+
+
     public Level0Room(DiscreteCoordinates roomCoordinates) {
-        super("icrogue/Level0Room", roomCoordinates);
+        super(Level0Connectors.getAllConnectorsPosition(), Level0Connectors.getAllConnectorsOrientation(), "icrogue/Level0Room", roomCoordinates);
+        this.roomCoordinates = roomCoordinates;
     }
 
     public enum Level0Connectors implements ConnectorInRoom {
@@ -26,17 +31,46 @@ public class Level0Room extends ICRogueRoom {
         N(new DiscreteCoordinates(4, 9),
                 new DiscreteCoordinates(5, 1), Orientation.UP);
 
+        private DiscreteCoordinates position;
+        private DiscreteCoordinates destination;
+        private Orientation orientation;
 
-        Level0Connectors(DiscreteCoordinates discreteCoordinates, DiscreteCoordinates discreteCoordinates1, Orientation left) {
+        Level0Connectors(DiscreteCoordinates position, DiscreteCoordinates destination, Orientation orientation) {
+            this.position = position;
+            this.destination = destination;
+            this.orientation = orientation;
         }
 
         @Override
-        public String getTitle() {
-            return "icrogue/level0" + roomCoordinates.x + roomCoordinates.y;
+        public int getIndex() {
+            return ordinal();
+        }
+
+        @Override
+        public DiscreteCoordinates getDestination() {
+            return destination;
+        }
+
+        static List<Orientation> getAllConnectorsOrientation() {
+            final List<Orientation> orientationList = new ArrayList<>();
+            for (Level0Connectors value : values()) {
+                orientationList.add(value.orientation);
+            }
+            return orientationList;
+        }
+
+        static List<DiscreteCoordinates> getAllConnectorsPosition() {
+            final List<DiscreteCoordinates> positionList = new ArrayList<>();
+            for (Level0Connectors value : values()) {
+                positionList.add(value.position);
+            }
+            return positionList;
         }
     }
 
-
-
+    @Override
+    public String getTitle() {
+        return "icrogue/level0" + roomCoordinates.x + roomCoordinates.y;
+    }
 }
 

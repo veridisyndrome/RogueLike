@@ -13,14 +13,48 @@ import java.util.List;
 
 public class Connector extends AreaEntity {
 
-    private enum ConnectorType {
+    private ConnectorState state = ConnectorState.INVISIBLE;
+
+    public boolean isLocked() {
+        return state == ConnectorState.LOCKED;
+    }
+
+    public boolean isClosed() {
+        return state == ConnectorState.CLOSED;
+    }
+
+    public boolean isOpen() {
+        return state == ConnectorState.OPEN;
+    }
+
+    public void open() {
+        state = ConnectorState.OPEN;
+    }
+    public void close() {
+        state = ConnectorState.CLOSED;
+    }
+    public void lock(int keyId) {
+        state = ConnectorState.LOCKED;
+        this.keyId = keyId;
+    }
+
+    public void setDestination(String destinationArea, DiscreteCoordinates startCoords) {
+        this.destinationArea = destinationArea;
+        this.startCoords = startCoords;
+    }
+
+    private enum ConnectorState {
         OPEN,
         CLOSED,
         LOCKED,
-        INVISIBLE;
+        INVISIBLE
     }
     private String destinationAreaName;
+    private Sprite invisibleDoor;
+    private Sprite closedDoor;
+    private Sprite lockedDoor;
     private final static int NO_KEY_ID = 1;
+    private int keyId;
 
     /**
      * Default AreaEntity constructor
@@ -32,18 +66,18 @@ public class Connector extends AreaEntity {
     public Connector(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 
-
-        Sprite invisibleDoor = new Sprite("icrogue/invisibleDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
-        Sprite closedDoor = new Sprite("icrogue/door_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
-        Sprite lockedDoor = new Sprite("icrogue/lockedDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
-
-
-
+        invisibleDoor = new Sprite("icrogue/invisibleDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
+        closedDoor = new Sprite("icrogue/door_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
+        lockedDoor = new Sprite("icrogue/lockedDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
     }
 
     @Override
     public void draw(Canvas canvas) {
-
+        switch (state) {
+            case INVISIBLE -> invisibleDoor.draw(canvas);
+            case CLOSED -> closedDoor.draw(canvas);
+            case LOCKED -> lockedDoor.draw(canvas);
+        }
     }
 
     @Override
