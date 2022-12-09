@@ -22,14 +22,10 @@ public class Level0Room extends ICRogueRoom {
     }
 
     public enum Level0Connectors implements ConnectorInRoom {
-        W(new DiscreteCoordinates(0, 4),
-                new DiscreteCoordinates(8, 5), Orientation.LEFT),
-        S(new DiscreteCoordinates(4, 0),
-                new DiscreteCoordinates(5, 8), Orientation.DOWN),
-        E(new DiscreteCoordinates(9, 4),
-                new DiscreteCoordinates(1, 5), Orientation.RIGHT),
-        N(new DiscreteCoordinates(4, 9),
-                new DiscreteCoordinates(5, 1), Orientation.UP);
+        W(new DiscreteCoordinates(0, 4), new DiscreteCoordinates(8, 5), Orientation.LEFT),
+        S(new DiscreteCoordinates(4, 0), new DiscreteCoordinates(5, 8), Orientation.DOWN),
+        E(new DiscreteCoordinates(9, 4), new DiscreteCoordinates(1, 5), Orientation.RIGHT),
+        N(new DiscreteCoordinates(4, 9), new DiscreteCoordinates(5, 1), Orientation.UP);
 
         private DiscreteCoordinates position;
         private DiscreteCoordinates destination;

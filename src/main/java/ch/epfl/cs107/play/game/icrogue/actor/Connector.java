@@ -105,8 +105,4 @@ public class Connector extends AreaEntity {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
 
     }
-
-
-
-
  }
