@@ -10,9 +10,9 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Key extends Item {
     private final Sprite sprite = new Sprite("zelda/key", 0.6f, 0.6f, this);
-    private final int keyId;
+    private int keyId = 1;
 
-    public Key(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected, int keyId) {
+    public Key(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected) {
         super(area, orientation, position, isCollected);
         this.keyId = keyId;
     }

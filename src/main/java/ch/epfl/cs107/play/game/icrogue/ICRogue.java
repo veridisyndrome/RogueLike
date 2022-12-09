@@ -35,6 +35,7 @@ public class ICRogue extends AreaGame {
         key = new Key(currentRoom, Orientation.UP, new DiscreteCoordinates(8,3), false);
         currentRoom.registerActor(key);
 
+
     }
 
 
