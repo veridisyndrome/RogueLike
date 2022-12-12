@@ -30,6 +30,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Sprite left;
     private boolean canHaveInteraction;
     private boolean staffCollected;
+    private boolean isPassing;
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
 
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
@@ -142,6 +143,13 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         public void interactWith(Key key, boolean isCellInteraction) {
             if (isCellInteraction) {
                 key.collect();
+            }
+        }
+
+        public void interactWith(Connector connector, boolean isCellInteraction) {
+            if (isCellInteraction && isPassing) {
+               switchRoom(getOwnerArea(), connector.getDestinationCoords());
+               System.out.print("aaaaa");
             }
         }
     }

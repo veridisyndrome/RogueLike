@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
+import ch.epfl.cs107.play.game.icrogue.area.Level0;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -23,19 +24,19 @@ public class ICRogue extends AreaGame {
     protected Key key;
 
     public void initLevel() {
-        currentRoom = new Level0Room(new DiscreteCoordinates(0, 0));
-        addArea(currentRoom);
-        setCurrentArea(currentRoom.getTitle(), true);
-        ICRoguePlayer = new ICRoguePlayer(currentRoom, Orientation.UP, new DiscreteCoordinates(2,2));
-        currentRoom.registerActor(ICRoguePlayer);
-        staff = new Staff(currentRoom, Orientation.UP, new DiscreteCoordinates(4,3), false);
-        currentRoom.registerActor(staff);
-        cherry = new Cherry(currentRoom, Orientation.UP, new DiscreteCoordinates(6,3), false);
-        currentRoom.registerActor(cherry);
-        key = new Key(currentRoom, Orientation.UP, new DiscreteCoordinates(8,3), false);
-        currentRoom.registerActor(key);
+        currentRoom = new Level0(new DiscreteCoordinates(0, 0));
 
+        for (int i = 0; i < currentRoom.getRoomArea().length; i++)  {
+            for (int j = 0; j < currentRoom.getRoomArea()[i].length; j++)  {
+                if (currentRoom.getRoomArea()[i][j] != null) {
+                    addArea(currentRoom.getRoomArea()[i][j]);
+                }
+            }
+        }
 
+        setCurrentArea(currentRoom.getStartingRoomName(), true);
+        ICRoguePlayer = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2));
+        getCurrentArea().registerActor(ICRoguePlayer);
     }
 
 
