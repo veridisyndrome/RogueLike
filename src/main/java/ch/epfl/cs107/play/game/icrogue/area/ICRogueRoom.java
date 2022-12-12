@@ -44,7 +44,8 @@ public abstract class ICRogueRoom extends Area {
         return false;
     }
 
-    private void createArea(Window window) {
+
+    protected void createArea(Window window) {
         setBehavior(new ICRogueBehavior(window, behaviorName));
         registerActor(new Background(this, behaviorName));
 

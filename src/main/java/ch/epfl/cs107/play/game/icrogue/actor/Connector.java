@@ -70,6 +70,10 @@ public class Connector extends AreaEntity {
         lockedDoor = new Sprite("icrogue/lockedDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
     }
 
+    public DiscreteCoordinates getDestinationCoords() {
+        return destinationCoords;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         switch (state) {
