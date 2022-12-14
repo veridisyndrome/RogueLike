@@ -14,6 +14,6 @@ public class Level0KeyRoom extends Level0ItemRoom{
 
     public Level0KeyRoom(DiscreteCoordinates roomCoordinates, int keyID) {
         super(roomCoordinates);
-        addItem(new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), false));
+        addItem(new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), keyID));
     }
 }

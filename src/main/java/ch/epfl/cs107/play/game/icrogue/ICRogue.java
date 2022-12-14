@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.icrogue;
 
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
@@ -8,7 +7,6 @@ import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.area.Level0;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Button;
@@ -24,7 +22,7 @@ public class ICRogue extends AreaGame {
     protected Key key;
 
     public void initLevel() {
-        currentRoom = new Level0(new DiscreteCoordinates(0, 0));
+        currentRoom = new Level0();
 
         for (int i = 0; i < currentRoom.getRoomArea().length; i++)  {
             for (int j = 0; j < currentRoom.getRoomArea()[i].length; j++)  {
@@ -35,8 +33,8 @@ public class ICRogue extends AreaGame {
         }
 
         setCurrentArea(currentRoom.getStartingRoomName(), true);
-        ICRoguePlayer = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2));
-        getCurrentArea().registerActor(ICRoguePlayer);
+        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2));
+        getCurrentArea().registerActor(player);
     }
 
 
@@ -48,8 +46,12 @@ public class ICRogue extends AreaGame {
         if(buttonR.isDown()){
             reset();
         }
-
-
+        if(player.isPassing()) {
+            getCurrentArea().unregisterActor(player);
+            setCurrentArea(player.getPassingConnector().getDestinationArea(), false);
+            player.switchRoom(getCurrentArea(), player.getPassingConnector().getDestinationCoords());
+            getCurrentArea().registerActor(player);
+        }
     }
 
     private void reset() {

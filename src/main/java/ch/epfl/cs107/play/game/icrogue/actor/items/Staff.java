@@ -11,8 +11,8 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Staff extends Item {
     private final Sprite sprite = new Sprite("zelda/staff_water.icon", .5f, .5f, this);
 
-    public Staff(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected) {
-        super(area, orientation, position, isCollected);
+    public Staff(Area area, Orientation orientation, DiscreteCoordinates position) {
+        super(area, orientation, position);
     }
 
     @Override

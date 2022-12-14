@@ -8,7 +8,7 @@ public class Level0StaffRoom extends Level0ItemRoom {
 
     public Level0StaffRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
-        addItem(new Staff(this, Orientation.UP, new DiscreteCoordinates(5,5), false));
+        addItem(new Staff(this, Orientation.UP, new DiscreteCoordinates(5,5)));
     }
 
 }

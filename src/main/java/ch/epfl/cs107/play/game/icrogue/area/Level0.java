@@ -8,8 +8,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class Level0 extends Level{
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
-    public Level0(DiscreteCoordinates destinationCoords) {
-        super(destinationCoords, 5, 5);
+    public Level0() {
+        super(new DiscreteCoordinates(2, 2), 5, 5);
     }
 
     @Override

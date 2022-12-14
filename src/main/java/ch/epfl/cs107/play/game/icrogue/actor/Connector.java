@@ -17,43 +17,55 @@ public class Connector extends AreaEntity {
     private ConnectorState state = ConnectorState.INVISIBLE;
     private String destinationArea;
     private DiscreteCoordinates destinationCoords;
+    private String destinationAreaName;
+    private Sprite invisibleDoor;
+    private Sprite closedDoor;
+    private Sprite lockedDoor;
+    private final static int NO_KEY_ID = 1;
+    private int keyId;
+
 
     public boolean isClosed() {
         return state == ConnectorState.CLOSED;
     }
 
+    public boolean isLocked() {
+        return state == ConnectorState.LOCKED;
+    }
+
     public boolean isOpen() {
         return state == ConnectorState.OPEN;
     }
-
     public void open() {
         state = ConnectorState.OPEN;
     }
     public void close() {
         state = ConnectorState.CLOSED;
     }
+
     public void lock(int keyId) {
         state = ConnectorState.LOCKED;
         this.keyId = keyId;
+    }
+
+    public boolean tryUnlock(int keyID) {
+        if (keyID == this.keyId) {
+            open();
+            return true;
+        }
+        return false;
     }
 
     public void setDestination(String destinationArea, DiscreteCoordinates destinationCoords) {
         this.destinationArea = destinationArea;
         this.destinationCoords = destinationCoords;
     }
-
     private enum ConnectorState {
         OPEN,
         CLOSED,
         LOCKED,
         INVISIBLE
-    }
-    private String destinationAreaName;
-    private Sprite invisibleDoor;
-    private Sprite closedDoor;
-    private Sprite lockedDoor;
-    private final static int NO_KEY_ID = 1;
-    private int keyId = 2;
+        }
 
     /**
      * Default AreaEntity constructor
@@ -91,21 +103,25 @@ public class Connector extends AreaEntity {
 
     @Override
     public boolean takeCellSpace() {
-        return false;
+        return !isOpen();
     }
 
     @Override
     public boolean isCellInteractable() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isViewInteractable() {
-        return false;
+        return true;
     }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
     }
- }
+
+    public String getDestinationArea() {
+        return destinationArea;
+    }
+}

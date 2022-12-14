@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Item extends CollectableAreaEntity {
-    public Item(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected) {
-        super(area, orientation, position, isCollected);
+    public Item(Area area, Orientation orientation, DiscreteCoordinates position) {
+        super(area, orientation, position);
 
     }
 

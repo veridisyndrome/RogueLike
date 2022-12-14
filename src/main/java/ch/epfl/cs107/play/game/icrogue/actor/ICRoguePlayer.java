@@ -19,6 +19,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private boolean canHaveInteraction;
     private boolean staffCollected;
     private boolean isPassing;
+    private Connector passingConnector;
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
+    private final List<Integer> keyHold = new ArrayList<>();
 
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
@@ -60,7 +63,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         timeToFire += deltaTime;
 
 
-        if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F) && staffCollected){
+        if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F) && staffCollected) {
             launchFire(getOrientation());
             timeToFire = 0;
         }
@@ -71,33 +74,20 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     }
 
 
-
     public void launchFire(Orientation orientation) {
         final Fire fire = new Fire(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
         getOwnerArea().registerActor(fire);
     }
 
 
-
     private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
         if (b.isDown()) {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
-                move((int)(MOVE_DURATION/deltaTime));
+                move((int) (MOVE_DURATION / deltaTime));
             }
         }
     }
-
-    private void switchRoom(Area dest, DiscreteCoordinates coords) {
-        getOwnerArea().unregisterActor(this);
-        setOwnerArea(dest);
-        dest.registerActor(this);
-        setCurrentPosition(coords.toVector());
-        resetMotion();
-        System.out.print("nsvzvnz");
-    }
-
-
     @Override
     public void draw(Canvas canvas) {
         Orientation orientation = getOrientation();
@@ -111,7 +101,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return Collections.singletonList (getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
     }
 
     @Override
@@ -131,6 +121,17 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
+    }
+
+    public boolean isPassing() {
+        return isPassing;
+    }
+
+    public void switchRoom(Area dest, DiscreteCoordinates coords) {
+        setOwnerArea(dest);
+        setCurrentPosition(coords.toVector());
+        resetMotion();
+        isPassing = false;
     }
 
     public class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler {
@@ -153,14 +154,27 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         public void interactWith(Key key, boolean isCellInteraction) {
             if (isCellInteraction) {
                 key.collect();
+                keyHold.add(key.getKeyId());
             }
         }
 
         public void interactWith(Connector connector, boolean isCellInteraction) {
-            if (isCellInteraction && isPassing) {
-               switchRoom(getOwnerArea(), connector.getDestinationCoords());
-               System.out.print("aaaaa");
+            if (isCellInteraction) {
+                isPassing = true;
+                passingConnector = connector;
+            } else {
+                if(connector.isLocked()) {
+                    for (int keyID : keyHold) {
+                        if(connector.tryUnlock(keyID)) {}
+                    }
+                } else {
+                    connector.open();
+                }
             }
         }
+    }
+
+    public Connector getPassingConnector() {
+        return passingConnector;
     }
 }

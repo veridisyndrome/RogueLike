@@ -11,8 +11,8 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Cherry extends Item implements AreaInteractionVisitor {
     private final Sprite sprite = new Sprite("icrogue/cherry", 0.6f, 0.6f, this);
 
-    public Cherry(Area area, Orientation orientation, DiscreteCoordinates position, boolean isCollected) {
-        super(area, orientation, position, isCollected);
+    public Cherry(Area area, Orientation orientation, DiscreteCoordinates position) {
+        super(area, orientation, position);
     }
 
     @Override
