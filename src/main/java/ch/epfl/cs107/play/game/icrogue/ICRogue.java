@@ -15,8 +15,8 @@ import ch.epfl.cs107.play.window.Window;
 
 
 public class ICRogue extends AreaGame {
-    protected Level0Room currentRoom;
-    protected ICRoguePlayer ICRoguePlayer;
+    protected Level0 currentRoom;
+    protected ICRoguePlayer player;
     protected Staff staff;
     protected Cherry cherry;
     protected Key key;
