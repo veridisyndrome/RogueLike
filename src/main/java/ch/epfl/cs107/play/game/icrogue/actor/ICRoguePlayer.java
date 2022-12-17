@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.ICRogue;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
@@ -62,12 +63,16 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         timeToFire += deltaTime;
 
 
-        if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.5F) && staffCollected) {
+        if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.0F) && staffCollected) {
             launchFire(getOrientation());
             timeToFire = 0;
         }
 
-        canHaveInteraction = keyboard.get(Keyboard.W).isDown();
+        if (keyboard.get(Keyboard.W).isDown()) {
+            canHaveInteraction = true;
+        }
+
+
 
         super.update(deltaTime);
     }

@@ -62,6 +62,7 @@ public abstract class ICRogueRoom extends Area {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+
         final Keyboard keyboard = getKeyboard();
 
         if (keyboard.get(Keyboard.O).isDown()) {
@@ -72,9 +73,15 @@ public abstract class ICRogueRoom extends Area {
 
         if (keyboard.get(Keyboard.L).isDown()) {
             connectors.get(0).lock(1);
-
         }
 
+        if (isOn()) {
+            for (Connector connector : connectors) {
+                if (connector.isClosed()) {
+                    connector.open();
+                }
+            }
+        }
 
         if (keyboard.get(Keyboard.T).isDown() && !isPressed) {
             for (Connector connector : connectors) {
@@ -95,4 +102,6 @@ public abstract class ICRogueRoom extends Area {
     public void lockConnector(int index, int keyID) {
         connectors.get(index).lock(keyID);
     }
+
+
 }
