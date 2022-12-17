@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icrogue;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
@@ -17,9 +18,6 @@ import ch.epfl.cs107.play.window.Window;
 public class ICRogue extends AreaGame {
     protected Level0 currentRoom;
     protected ICRoguePlayer player;
-    protected Staff staff;
-    protected Cherry cherry;
-    protected Key key;
 
     public void initLevel() {
         currentRoom = new Level0();

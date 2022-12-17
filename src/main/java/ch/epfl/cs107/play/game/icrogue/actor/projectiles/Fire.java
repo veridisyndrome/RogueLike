@@ -25,7 +25,6 @@ public class Fire extends Projectile implements ICRogueInteractionHandler{
 
         Sprite(new Sprite("zelda/fire", 1f, 1f, this, new RegionOfInterest(0, 0, 16, 16), new Vector(0, 0)));
     }
-
     @Override
     public void consume() {
         super.consume();

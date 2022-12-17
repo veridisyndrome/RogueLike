@@ -15,7 +15,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.List;
 
-public class Turret extends ICRogueActor {
+public class Turret extends Enemy {
     private Area area;
     private Orientation orientation;
     private final static float COOLDOWN = 2.f;
@@ -34,12 +34,20 @@ public class Turret extends ICRogueActor {
         getOwnerArea().registerActor(arrow);
     }
 
+    public void death() {
+        System.out.println("2");
+        getOwnerArea().unregisterActor(this);
+    }
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         counter += deltaTime;
         if (counter >= COOLDOWN) {
             launchArrow(orientation);
+        }
+        if (hp <= 0) {
+            death();
         }
     }
 
