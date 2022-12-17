@@ -23,7 +23,7 @@ public class Fire extends Projectile implements ICRogueInteractionHandler{
         this.damagePts = 1;
         this.frames = 10;
 
-        setSprite(new Sprite("zelda/fire", 1f, 1f, this, new RegionOfInterest(0, 0, 16, 16), new Vector(0, 0)));
+        Sprite(new Sprite("zelda/fire", 1f, 1f, this, new RegionOfInterest(0, 0, 16, 16), new Vector(0, 0)));
     }
 
     @Override

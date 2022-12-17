@@ -15,7 +15,7 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
 
     Sprite sprite;
 
-    public void setSprite(Sprite sprite) {
+    public void Sprite(Sprite sprite) {
         this.sprite = sprite;
     }
 
