@@ -36,6 +36,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private Connector passingConnector;
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
     private final List<Integer> keyHold = new ArrayList<>();
+    private boolean isVisited;
 
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
@@ -71,8 +72,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         if (keyboard.get(Keyboard.W).isDown()) {
             canHaveInteraction = true;
         }
-
-
 
         super.update(deltaTime);
     }
@@ -136,6 +135,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         setCurrentPosition(coords.toVector());
         resetMotion();
         isPassing = false;
+        isVisited = false;
     }
 
     public class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler {
