@@ -5,6 +5,8 @@ import ch.epfl.cs107.play.game.areagame.actor.Background;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
 import ch.epfl.cs107.play.game.icrogue.actor.Connector;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0EnemyRoom;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0ItemRoom;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
@@ -61,6 +63,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
     }
 
     boolean isPressed = false;
+
     @Override
     public void update(float deltaTime) {
         if (isOn()) {

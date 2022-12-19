@@ -30,12 +30,13 @@ public class ICRogue extends AreaGame {
             }
         }
 
-        setCurrentArea(currentRoom.getStartingRoomName(), true);
-        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2));
+        setCurrentArea(currentLevel.getStartingRoomName(), true);
+        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2), new LifePoint(1));
         getCurrentArea().registerActor(player);
     }
 
 
+    @Override
     public void update(float deltatime){
         Keyboard keyboard= getWindow().getKeyboard();
 

@@ -29,7 +29,7 @@ public abstract class Level implements Logic {
 
     protected void setRoomConnectorDestination(DiscreteCoordinates coords, String destination, ConnectorInRoom connector) {
         final ICRogueRoom room = roomArea[coords.x][coords.y];
-        room.setConnectorDestination(connector.getIndex(), destination, destinationCoords);
+        room.setConnectorDestination(connector.getIndex(), destination, connector.getDestination());
     }
 
     protected void setRoomConnector(DiscreteCoordinates coords, String destination, ConnectorInRoom connector) {
