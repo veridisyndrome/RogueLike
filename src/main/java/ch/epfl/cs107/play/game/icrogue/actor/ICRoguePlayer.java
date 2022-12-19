@@ -47,7 +47,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return lifePoint.isOn();
     }
 
-    public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
+    public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position, LifePoint lifePoint) {
         super(area, orientation, position);
         //bas
         down = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
@@ -57,6 +57,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         up = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 64, 16, 32), new Vector(.15f, -.15f));
         // gauche
         left = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f));
+
+        this.lifePoint = lifePoint;
 
     }
 
@@ -179,12 +181,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 isPassing = true;
                 passingConnector = connector;
             } else {
-                if(connector.isLocked()) {
-                    for (int keyID : keyHold) {
-                        if(connector.tryUnlock(keyID)) {}
-                    }
-                } else {
-                    connector.open();
+                for (int keyID : keyHold) {
+                    if(connector.tryUnlock(keyID)) {}
                 }
             }
         }
