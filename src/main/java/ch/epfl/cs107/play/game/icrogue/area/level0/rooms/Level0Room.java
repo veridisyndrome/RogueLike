@@ -24,7 +24,6 @@ public class Level0Room extends ICRogueRoom {
 
     @Override
     public boolean isOn() {
-        System.out.println("0");
         return true;
     }
 

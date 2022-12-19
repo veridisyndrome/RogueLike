@@ -3,10 +3,7 @@ package ch.epfl.cs107.play.game.icrogue;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
-import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
-import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
-import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
-import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.Enemy;
 import ch.epfl.cs107.play.game.icrogue.area.Level0;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -16,16 +13,19 @@ import ch.epfl.cs107.play.window.Window;
 
 
 public class ICRogue extends AreaGame {
-    protected Level0 currentRoom;
+    protected Level0 currentLevel;
     protected ICRoguePlayer player;
+    private Enemy enemy;
+    private final Win win = new Win();
+    private final GameOver gameOver = new GameOver();
 
     public void initLevel() {
-        currentRoom = new Level0();
+        currentLevel = new Level0();
 
-        for (int i = 0; i < currentRoom.getRoomArea().length; i++)  {
-            for (int j = 0; j < currentRoom.getRoomArea()[i].length; j++)  {
-                if (currentRoom.getRoomArea()[i][j] != null) {
-                    addArea(currentRoom.getRoomArea()[i][j]);
+        for (int i = 0; i < currentLevel.getRoomArea().length; i++)  {
+            for (int j = 0; j < currentLevel.getRoomArea()[i].length; j++)  {
+                if (currentLevel.getRoomArea()[i][j] != null) {
+                    addArea(currentLevel.getRoomArea()[i][j]);
                 }
             }
         }
@@ -37,13 +37,22 @@ public class ICRogue extends AreaGame {
 
 
     public void update(float deltatime){
-        super.update(deltatime);
         Keyboard keyboard= getWindow().getKeyboard();
 
         Button buttonR = keyboard.get(Keyboard.R);
         if(buttonR.isDown()){
             reset();
         }
+        if(!player.isAlive()) {
+            gameOver.draw(getWindow());
+            return;
+        }
+        if (currentLevel.isOn()) {
+            //TODO go to the next level
+            win.draw(getWindow());
+            return;
+        }
+        super.update(deltatime);
         if(player.isPassing()) {
             getCurrentArea().unregisterActor(player);
             setCurrentArea(player.getPassingConnector().getDestinationArea(), false);

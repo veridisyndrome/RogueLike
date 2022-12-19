@@ -6,7 +6,7 @@ import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0StaffRoom;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0TurretRoom;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
-public class Level0 extends Level{
+public class Level0 extends Level  {
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
     public Level0() {
@@ -58,5 +58,6 @@ public class Level0 extends Level{
 
         setStartingRoomName("icrogue/level030");
     }
+
 
 }

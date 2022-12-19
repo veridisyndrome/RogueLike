@@ -6,10 +6,11 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icrogue.ICRogue;
+import ch.epfl.cs107.play.game.icrogue.LifePoint;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
+import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -37,6 +38,14 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
     private final List<Integer> keyHold = new ArrayList<>();
     private boolean isVisited;
+    private LifePoint lifePoint;
+
+    public void kill() {
+        lifePoint.kill();
+    }
+    public boolean isAlive() {
+        return lifePoint.isOn();
+    }
 
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
@@ -64,6 +73,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         timeToFire += deltaTime;
 
 
+
         if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.0F) && staffCollected) {
             launchFire(getOrientation());
             timeToFire = 0;
@@ -71,6 +81,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
         if (keyboard.get(Keyboard.W).isDown()) {
             canHaveInteraction = true;
+        } else {
+            canHaveInteraction = false;
         }
 
         super.update(deltaTime);
@@ -176,9 +188,18 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 }
             }
         }
+
+        @Override
+        public void interactWith(Arrow arrow, boolean isCellInteraction) {
+            ICRogueInteractionHandler.super.interactWith(arrow, isCellInteraction);
+            if (isCellInteraction) {
+                kill();
+            }
+        }
     }
 
     public Connector getPassingConnector() {
         return passingConnector;
     }
+
 }

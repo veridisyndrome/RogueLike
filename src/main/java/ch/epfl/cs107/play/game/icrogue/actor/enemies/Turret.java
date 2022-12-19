@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.LifePoint;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
@@ -16,17 +17,15 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.List;
 
 public class Turret extends Enemy {
-    private Area area;
-    private Orientation orientation;
-    private final static float COOLDOWN = 2.f;
+    private final Orientation[] orientations;
+    private final static float COOLDOWN = 1.5f;
     private float counter = 0.f;
-    private float hp = 1.f;
     private final Sprite turretSprite = new Sprite("icrogue/static_npc", 1.5f, 1.5f, this , null , new Vector(-0.25f, 0));
-    private ICRogueInteractionHandler handler = new Turret.ICRogueTurretInteractionHandler();
+    private final ICRogueInteractionHandler handler = new Turret.ICRogueTurretInteractionHandler();
 
-    public Turret(Area area, Orientation orientation, Orientation orientation1, DiscreteCoordinates coordinates) {
-        super(area, orientation, coordinates);
-        this.orientation = orientation1;
+    public Turret(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
+        super(area, orientation, coordinates, new LifePoint(1));
+        this.orientations = orientations;
     }
 
     public void launchArrow(Orientation orientation) {
@@ -34,26 +33,22 @@ public class Turret extends Enemy {
         getOwnerArea().registerActor(arrow);
     }
 
-    public void death() {
-        System.out.println("2");
-        getOwnerArea().unregisterActor(this);
-    }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         counter += deltaTime;
         if (counter >= COOLDOWN) {
-            launchArrow(orientation);
-        }
-        if (hp <= 0) {
-            death();
+            for (Orientation orientation : orientations) {
+                launchArrow(orientation);
+            }
+            counter = 0;
+
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-
         turretSprite.draw(canvas);
     }
 
@@ -84,22 +79,24 @@ public class Turret extends Enemy {
 
     @Override
     public boolean takeCellSpace() {
-        return true;
+        return false;
     }
 
     private class ICRogueTurretInteractionHandler implements ICRogueInteractionHandler {
         @Override
         public void interactWith(Fire fire, boolean isCellInteraction) {
             if (isCellInteraction) {
-                death();
+                kill();
             }
         }
 
         @Override
         public void interactWith(ICRoguePlayer player, boolean isCellInteraction) {
             if (isCellInteraction) {
-                death();
+                kill();
             }
         }
     }
+
+
 }

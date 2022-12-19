@@ -63,6 +63,14 @@ public abstract class ICRogueRoom extends Area implements Logic {
     boolean isPressed = false;
     @Override
     public void update(float deltaTime) {
+        if (isOn()) {
+            for (Connector connector : connectors) {
+                if (connector.isClosed()) {
+                    connector.open();
+                }
+            }
+        }
+
         super.update(deltaTime);
 
         final Keyboard keyboard = getKeyboard();
@@ -75,14 +83,6 @@ public abstract class ICRogueRoom extends Area implements Logic {
 
         if (keyboard.get(Keyboard.L).isDown()) {
             connectors.get(0).lock(1);
-        }
-
-        if (isOn()) {
-            for (Connector connector : connectors) {
-                if (connector.isClosed()) {
-                    connector.open();
-                }
-            }
         }
 
         if (keyboard.get(Keyboard.T).isDown() && !isPressed) {
@@ -100,10 +100,8 @@ public abstract class ICRogueRoom extends Area implements Logic {
     public void closeConnector(int index) {
         connectors.get(index).close();
     }
-
     public void lockConnector(int index, int keyID) {
         connectors.get(index).lock(keyID);
     }
-
 
 }

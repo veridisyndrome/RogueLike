@@ -33,7 +33,6 @@ public abstract class Level0ItemRoom extends Level0Room implements Logic {
                 return false;
             }
         }
-        System.out.println("1");
         return true;
     }
 }

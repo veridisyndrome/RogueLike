@@ -4,10 +4,11 @@ import ch.epfl.cs107.play.game.icrogue.actor.enemies.Enemy;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Level0EnemyRoom extends Level0Room{
-    private List<Enemy> enemies;
+public abstract class Level0EnemyRoom extends Level0Room {
+    private final List<Enemy> enemies;
 
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates, List<Enemy> enemies) {
         super(roomCoordinates);
@@ -15,21 +16,29 @@ public abstract class Level0EnemyRoom extends Level0Room{
     }
 
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
-        super(roomCoordinates);
+       this(roomCoordinates, new ArrayList<>());
     }
 
     protected void addEnemy(Enemy enemy) {
         enemies.add(enemy);
     }
 
+
     @Override
-    public boolean isOn() {
+    public void update(float deltaTime) {
+        super.update(deltaTime);
         for (int i = 0; i < enemies.size(); i++) {
             if(!enemies.get(i).isAlive()) {
-                return  false;
+                unregisterActor(enemies.get(i));
+                enemies.remove(i);
+                --i;
             }
         }
-        return super.isOn();
+    }
+
+    @Override
+    public boolean isOn() {
+        return enemies.isEmpty() && super.isOn();
     }
 
     @Override

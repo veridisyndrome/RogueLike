@@ -24,7 +24,7 @@ public class Arrow extends Projectile implements ICRogueInteractionHandler {
         this.damagePts = 1;
         this.frames = 10;
 
-        Sprite(new Sprite("zelda/arrow", 1f, 1f, this, new RegionOfInterest(32* orientation.ordinal(), 0, 32, 32), new Vector(0, 0)));
+        setSprite(new Sprite("zelda/arrow", 1f, 1f, this, new RegionOfInterest(32* orientation.ordinal(), 0, 32, 32), new Vector(0, 0)));
     }
 
     @Override

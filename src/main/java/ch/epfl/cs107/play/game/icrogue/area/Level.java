@@ -2,8 +2,9 @@ package ch.epfl.cs107.play.game.icrogue.area;
 
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.logic.Logic;
 
-public abstract class Level {
+public abstract class Level implements Logic {
     private int width;
     private int height;
     private ICRogueRoom[][] roomArea;
@@ -33,7 +34,7 @@ public abstract class Level {
 
     protected void setRoomConnector(DiscreteCoordinates coords, String destination, ConnectorInRoom connector) {
         final ICRogueRoom room = roomArea[coords.x][coords.y];
-        room.setConnectorDestination(connector.getIndex(), destination, destinationCoords);
+        room.setConnectorDestination(connector.getIndex(), destination, connector.getDestination());
         room.closeConnector(connector.getIndex());
     }
 
@@ -56,5 +57,20 @@ public abstract class Level {
 
     protected String setStartingRoomName(DiscreteCoordinates coords) {
         return "icrogue/level0" + coords.x + coords.y;
+    }
+
+    @Override
+    public boolean isOn() {
+         return false;
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isOn();
+    }
+
+    @Override
+    public float getIntensity() {
+        return 0;
     }
 }
