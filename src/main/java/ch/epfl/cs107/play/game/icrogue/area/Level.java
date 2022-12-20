@@ -5,6 +5,8 @@ import ch.epfl.cs107.play.game.icrogue.RandomHelper;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
+import java.util.*;
+
 public abstract class Level implements Logic {
     private int width;
     private int height;
@@ -199,7 +201,7 @@ public abstract class Level implements Logic {
     }
 
     protected void setRoomConnector(DiscreteCoordinates coords, String destination, ConnectorInRoom connector) {
-        final ICRogueRoom room = roomArea[coords.x][coords.y];
+       final ICRogueRoom room = roomMap[coords.x][coords.y];
         room.setConnectorDestination(connector.getIndex(), destination, connector.getDestination());
         room.closeConnector(connector.getIndex());
     }

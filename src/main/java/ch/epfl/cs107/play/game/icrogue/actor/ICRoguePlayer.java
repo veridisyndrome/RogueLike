@@ -47,6 +47,15 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return lifePoint.isOn();
     }
 
+    /**
+     * Default ICRogueActor constructor.
+     * Initialises the orientation sprites.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     * @param lifePoint   (LifePoint): Initial life points of the player. Not null
+     */
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position, LifePoint lifePoint) {
         super(area, orientation, position);
         //bas
@@ -62,8 +71,16 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     }
 
+    /**
+     *  Cooldown to wait to fire with the staff.
+     */
     private float timeToFire = 1.0F;
 
+    /**
+     * Simulates a single time step.
+     *
+     * @param deltaTime (float): Elapsed time since last update, in seconds, non-negative
+     */
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
 
@@ -73,8 +90,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN), deltaTime);
 
         timeToFire += deltaTime;
-
-
 
         if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.0F) && staffCollected) {
             launchFire(getOrientation());
@@ -90,13 +105,22 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         super.update(deltaTime);
     }
 
-
+    /**
+     * Fires a fireball in the given orientation.
+     *
+     * @param orientation (Orientation): Defines the orientation where to fire
+     */
     public void launchFire(Orientation orientation) {
         final Fire fire = new Fire(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
         getOwnerArea().registerActor(fire);
     }
 
-
+    /**
+     *
+     * @param orientation (Orientation): Defines the orientation where to move
+     * @param b           (Button): Button pressed
+     * @param deltaTime   (float): Elapsed time since last update, in seconds, non-negative
+     */
     private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
         if (b.isDown()) {
             if (!isDisplacementOccurs()) {
@@ -105,6 +129,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             }
         }
     }
+
+    /**
+     * Renders itself on a specified canvas.
+     *
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         Orientation orientation = getOrientation();

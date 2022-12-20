@@ -111,5 +111,29 @@ public class Level0 extends Level  {
         setStartingRoomName("icrogue/level030");
     }
 
+    @Override
+    void generateRoom(DiscreteCoordinates coords, int type) {
+        setRoom(coords, RoomType.values()[type].roomCreator.create(coords));
+        if (type == 3) {
+            setStartingRoomName(coords);
+        }
 
+    }
+
+    @Override
+    protected void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room) {
+        DiscreteCoordinates coords = room.getCoords();
+        for (Level0Room.Level0Connectors connectors : Level0Room.Level0Connectors.values()) {
+            DiscreteCoordinates destinationCoords = coords.jump(connectors.getOrientation().toVector());
+            if((destinationCoords.x >= 0 && destinationCoords.x < roomsPlacement.length) && (destinationCoords.y >= 0 && destinationCoords.y < roomsPlacement[0].length)) {
+                MapState destinationState = roomsPlacement[destinationCoords.x][destinationCoords.y];
+                if (destinationState == MapState.BOSS_ROOM || destinationState == MapState.CREATED) {
+                    setRoomConnector(coords, "icrogue/level0" + destinationCoords.x + destinationCoords.y, connectors);
+                }
+                if (destinationState == MapState.BOSS_ROOM) {
+                    lockRoomConnector(coords, connectors, BOSS_KEY_ID);
+                }
+            }
+        }
+    }
 }
