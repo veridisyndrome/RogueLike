@@ -124,4 +124,5 @@ public class Connector extends AreaEntity {
     public String getDestinationArea() {
         return destinationArea;
     }
+
 }

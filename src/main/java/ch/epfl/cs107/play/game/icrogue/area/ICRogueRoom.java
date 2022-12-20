@@ -107,4 +107,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
         connectors.get(index).lock(keyID);
     }
 
+    public DiscreteCoordinates getCoords() {
+        return roomCoordinates;
+    }
 }

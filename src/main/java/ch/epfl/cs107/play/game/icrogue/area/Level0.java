@@ -10,13 +10,65 @@ public class Level0 extends Level  {
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
     public Level0() {
-        super(new DiscreteCoordinates(2, 2), 5, 5);
+        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 5, 5);
     }
 
-    @Override
+
+    public enum RoomType {
+        TURRET_ROOM(3, new RoomCreator() {
+            @Override
+            public ICRogueRoom create(DiscreteCoordinates coords) {
+                return new Level0TurretRoom(coords);
+            }
+        }), // type and number of room STAFF_ROOM(1),
+        STAFF_ROOM(1, new RoomCreator() {
+            @Override
+            public ICRogueRoom create(DiscreteCoordinates coords) {
+                return new Level0StaffRoom(coords);
+            }
+        }),
+        BOSS_KEY(1, new RoomCreator() {
+            @Override
+            public ICRogueRoom create(DiscreteCoordinates coords) {
+                return new Level0KeyRoom(coords, BOSS_KEY_ID);
+            }
+        }),
+        SPAWN(1, new RoomCreator() {
+            @Override
+            public ICRogueRoom create(DiscreteCoordinates coords) {
+                return new Level0Room(coords);
+            }
+        }),
+        NORMAL(1, new RoomCreator() {
+            @Override
+            public ICRogueRoom create(DiscreteCoordinates coords) {
+                return new Level0Room(coords);
+            }
+        });
+
+        private final int nbType;
+        private final RoomCreator roomCreator;
+
+        RoomType(int nbType, RoomCreator roomCreator) {
+            this.nbType = nbType;
+            this.roomCreator = roomCreator;
+        }
+
+        static int[] getDistribution() {
+            int[] typeList = new int[RoomType.values().length];
+            for (int i = 0; i < RoomType.values().length; ++i) {
+                typeList[i] = RoomType.values()[i].nbType;
+            }
+            return typeList;
+        }
+
+        private interface RoomCreator{
+            ICRogueRoom create(DiscreteCoordinates coords);
+        }
+    }
+
     void generateFixedMap() {
         generateMap2();
-
     }
 
     private void generateMap1() {
