@@ -7,7 +7,7 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
 import static ch.epfl.cs107.play.math.TextAlign.Horizontal.CENTER;
-import static ch.epfl.cs107.play.math.TextAlign.Vertical.TOP;
+import static ch.epfl.cs107.play.math.TextAlign.Vertical.*;
 import static java.awt.Color.WHITE;
 
 public class Win implements Graphics, Logic {
@@ -15,10 +15,15 @@ public class Win implements Graphics, Logic {
     public void draw(Canvas canvas) {
         final Vector anchor = canvas.getTransform().getOrigin().add(0, 2);
 
-        final TextGraphics text = new TextGraphics("GAME OVER", 2, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
+        final TextGraphics text1 = new TextGraphics("GAME OVER", 3, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
+        final TextGraphics text2 = new TextGraphics("press R to restart game", 4, WHITE, null, 0, false, false, anchor.sub(0,4), CENTER, TOP, 1, 0);
 
-        text.setFontName("Kenney Pixel");
-        text.draw(canvas);
+
+
+        text1.setFontName("Kenney Pixel");
+        text2.setFontName("Kenney Pixel");
+        text1.draw(canvas);
+        text2.draw(canvas);
     }
 
     @Override

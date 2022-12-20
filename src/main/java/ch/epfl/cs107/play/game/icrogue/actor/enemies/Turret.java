@@ -18,8 +18,8 @@ import java.util.List;
 
 public class Turret extends Enemy {
     private final Orientation[] orientations;
-    private final static float COOLDOWN = 1.5f;
-    private float counter = 0.f;
+    private final static float COOLDOWN = 1.f;
+    private float counter = COOLDOWN;
     private final Sprite turretSprite = new Sprite("icrogue/static_npc", 1.5f, 1.5f, this , null , new Vector(-0.25f, 0));
     private final ICRogueInteractionHandler handler = new Turret.ICRogueTurretInteractionHandler();
 
@@ -43,7 +43,6 @@ public class Turret extends Enemy {
                 launchArrow(orientation);
             }
             counter = 0;
-
         }
     }
 
@@ -97,6 +96,4 @@ public class Turret extends Enemy {
             }
         }
     }
-
-
 }

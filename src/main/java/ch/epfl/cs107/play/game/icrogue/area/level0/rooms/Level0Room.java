@@ -4,7 +4,6 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.area.ConnectorInRoom;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class Level0Room extends ICRogueRoom {
 
-    private DiscreteCoordinates roomCoordinates;
+    private final DiscreteCoordinates roomCoordinates;
 
 
     public Level0Room(DiscreteCoordinates roomCoordinates) {
@@ -43,9 +42,9 @@ public class Level0Room extends ICRogueRoom {
         E(new DiscreteCoordinates(9, 4), new DiscreteCoordinates(1, 5), Orientation.RIGHT),
         N(new DiscreteCoordinates(4, 9), new DiscreteCoordinates(5, 1), Orientation.UP);
 
-        private DiscreteCoordinates position;
-        private DiscreteCoordinates destination;
-        private Orientation orientation;
+        private final DiscreteCoordinates position;
+        private final DiscreteCoordinates destination;
+        private final Orientation orientation;
 
         public Orientation getOrientation() {
             return orientation;

@@ -14,15 +14,15 @@ import java.util.List;
 
 public class Connector extends AreaEntity {
 
-    private ConnectorState state = ConnectorState.INVISIBLE;
-    private String destinationArea;
-    private DiscreteCoordinates destinationCoords;
+    private ConnectorState state = ConnectorState.INVISIBLE; //
+    private String destinationArea; // Name Of The Destination Area
+    private DiscreteCoordinates destinationCoords; //Destination Coordinates Of The Connectors
     private String destinationAreaName;
-    private Sprite invisibleDoor;
-    private Sprite closedDoor;
-    private Sprite lockedDoor;
-    private final static int NO_KEY_ID = 1;
-    private int keyId;
+    private final Sprite invisibleDoor; //Sprite for Invisible Door
+    private final Sprite closedDoor; //Sprite for Closed Door
+    private final Sprite lockedDoor; //Sprite for Locked Door
+    private final static int NO_KEY_ID = 1; //Default Key ID For Connectors
+    private int keyId; //
 
 
     public boolean isClosed() {
@@ -81,6 +81,11 @@ public class Connector extends AreaEntity {
         closedDoor = new Sprite("icrogue/door_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
         lockedDoor = new Sprite("icrogue/lockedDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
     }
+
+    /**
+     * Destination Coordinates Getters
+     *
+     */
 
     public DiscreteCoordinates getDestinationCoords() {
         return destinationCoords;

@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.icrogue;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
-import ch.epfl.cs107.play.game.icrogue.actor.enemies.Enemy;
 import ch.epfl.cs107.play.game.icrogue.area.Level0;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -15,7 +14,6 @@ import ch.epfl.cs107.play.window.Window;
 public class ICRogue extends AreaGame {
     protected Level0 currentLevel;
     protected ICRoguePlayer player;
-    private Enemy enemy;
     private final Win win = new Win();
     private final GameOver gameOver = new GameOver();
 

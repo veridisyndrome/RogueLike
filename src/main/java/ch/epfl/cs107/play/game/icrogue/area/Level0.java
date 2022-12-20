@@ -15,36 +15,11 @@ public class Level0 extends Level  {
 
 
     public enum RoomType {
-        TURRET_ROOM(3, new RoomCreator() {
-            @Override
-            public ICRogueRoom create(DiscreteCoordinates coords) {
-                return new Level0TurretRoom(coords);
-            }
-        }), // type and number of room STAFF_ROOM(1),
-        STAFF_ROOM(1, new RoomCreator() {
-            @Override
-            public ICRogueRoom create(DiscreteCoordinates coords) {
-                return new Level0StaffRoom(coords);
-            }
-        }),
-        BOSS_KEY(1, new RoomCreator() {
-            @Override
-            public ICRogueRoom create(DiscreteCoordinates coords) {
-                return new Level0KeyRoom(coords, BOSS_KEY_ID);
-            }
-        }),
-        SPAWN(1, new RoomCreator() {
-            @Override
-            public ICRogueRoom create(DiscreteCoordinates coords) {
-                return new Level0Room(coords);
-            }
-        }),
-        NORMAL(1, new RoomCreator() {
-            @Override
-            public ICRogueRoom create(DiscreteCoordinates coords) {
-                return new Level0Room(coords);
-            }
-        });
+        TURRET_ROOM(3, Level0TurretRoom::new), // type and number of room STAFF_ROOM(1),
+        STAFF_ROOM(1, Level0StaffRoom::new),
+        BOSS_KEY(1, coords -> new Level0KeyRoom(coords, BOSS_KEY_ID)),
+        SPAWN(1, Level0Room::new),
+        NORMAL(1, Level0Room::new);
 
         private final int nbType;
         private final RoomCreator roomCreator;

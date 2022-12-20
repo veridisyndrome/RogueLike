@@ -5,8 +5,6 @@ import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0KeyRoom extends Level0ItemRoom {
-    private Key key;
-
     public Level0KeyRoom(DiscreteCoordinates roomCoordinates, int keyID) {
         super(roomCoordinates);
         addItem(new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), keyID));

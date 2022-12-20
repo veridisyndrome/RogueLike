@@ -48,7 +48,4 @@ public abstract class Level0EnemyRoom extends Level0Room {
             registerActor(enemy);
         }
     }
-
-
-
 }

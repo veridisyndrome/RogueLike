@@ -8,15 +8,13 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import java.util.*;
 
 public abstract class Level implements Logic {
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private ICRogueRoom[][] roomMap;
     private MapState[][] mapStates;
-    private DiscreteCoordinates startPosition;
-    private int[] roomsDistribution;
     private DiscreteCoordinates bossCoords;
     private String startingRoomName;
-    private int roomsToPlace = 0;
+    private final DiscreteCoordinates startPosition;
 
 
     public Level(boolean randomMap, int[] roomsDistribution, DiscreteCoordinates startPosition, int width, int height) {
@@ -42,16 +40,14 @@ public abstract class Level implements Logic {
         roomMap = new ICRogueRoom[width][height];
         mapStates = new MapState[width][height];
 
-        for (int i = 0; i < roomsDistribution.length; ++i) {
-            nbRooms += roomsDistribution[i];
+        for (int j : roomsDistribution) {
+            nbRooms += j;
         }
 
         int roomsToPlace = nbRooms;
 
-        for(int i = 0; i < mapStates.length; ++i) {
-            for(int j = 0; j < mapStates[i].length; ++j) {
-                mapStates[i][j] = MapState.NULL;
-            }
+        for (MapState[] mapState : mapStates) {
+            Arrays.fill(mapState, MapState.NULL);
         }
         mapStates[width/2][height/2] = MapState.PLACED;
 
@@ -108,7 +104,6 @@ public abstract class Level implements Logic {
     }
 
     public void generateRandomMap(MapState[][] mapStates, int[] roomsDistribution) {
-        this.roomsDistribution = roomsDistribution;
         this.mapStates = mapStates;
 
         for (int type = 0; type < roomsDistribution.length; type++) {
@@ -149,9 +144,7 @@ public abstract class Level implements Logic {
 
     private boolean freeSlots(DiscreteCoordinates coords) {
         if((coords.x > 0 && coords.x < width) && (coords.y > 0 && coords.y < height)) {
-            if(mapStates[coords.x][coords.y] == MapState.NULL) {
-                return true;
-            }
+            return mapStates[coords.x][coords.y] == MapState.NULL;
         }
         return false;
     }
