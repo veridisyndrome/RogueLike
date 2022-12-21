@@ -20,6 +20,13 @@ public class Fire extends Projectile implements ICRogueInteractionHandler{
     private final FireInteractionHandler handler = new FireInteractionHandler();
     private final Animation animation;
 
+    /**
+     * Default Fire constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Fire(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         this.damagePts = 1;

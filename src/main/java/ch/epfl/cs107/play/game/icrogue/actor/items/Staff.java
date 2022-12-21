@@ -16,6 +16,13 @@ public class Staff extends Item {
 
     private final Animation animation;
 
+    /**
+     * Default Staff constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Staff(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 

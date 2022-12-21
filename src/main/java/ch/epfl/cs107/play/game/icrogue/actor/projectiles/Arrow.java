@@ -19,6 +19,13 @@ import static ch.epfl.cs107.play.game.icrogue.ICRogueBehavior.ICRogueCellType.WA
 public class Arrow extends Projectile implements ICRogueInteractionHandler {
     private final Arrow.ArrowInteractionHandler handler = new Arrow.ArrowInteractionHandler();
 
+    /**
+     * Default Arrow constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Arrow(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         this.damagePts = 1;

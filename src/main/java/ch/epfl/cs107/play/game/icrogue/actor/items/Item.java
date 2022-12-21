@@ -9,9 +9,16 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Item extends CollectableAreaEntity {
+
+    /**
+     * Default Item constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     * */
     public Item(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-
     }
 
     @Override

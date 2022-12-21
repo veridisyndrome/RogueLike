@@ -20,6 +20,13 @@ public class Water extends Projectile implements ICRogueInteractionHandler {
     private final Water.WaterInteractionHandler handler = new Water.WaterInteractionHandler();
     private final Animation animation;
 
+    /**
+     * Default Water constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Water(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         this.damagePts = 1;

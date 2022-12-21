@@ -12,6 +12,14 @@ public class Key extends Item {
     private final Sprite sprite = new Sprite("zelda/key", 0.6f, 0.6f, this);
     private final  int keyId;
 
+    /**
+     * Default Key constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     * @param keyID       (int): Key identifier
+     */
     public Key(Area area, Orientation orientation, DiscreteCoordinates position, int keyID) {
         super(area, orientation, position);
         this.keyId = keyID;

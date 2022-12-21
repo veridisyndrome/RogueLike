@@ -11,6 +11,13 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Cherry extends Item implements AreaInteractionVisitor {
     private final Sprite sprite = new Sprite("icrogue/cherry", 0.6f, 0.6f, this);
 
+    /**
+     * Default Cherry constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Cherry(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
     }

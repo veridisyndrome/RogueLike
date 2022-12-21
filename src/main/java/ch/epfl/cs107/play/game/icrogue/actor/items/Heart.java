@@ -13,6 +13,13 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Heart extends Item implements AreaInteractionVisitor {
     private final Animation animation;
 
+    /**
+     * Default Heart constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Heart(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 

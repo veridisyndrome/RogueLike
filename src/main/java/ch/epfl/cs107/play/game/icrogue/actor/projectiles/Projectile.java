@@ -14,20 +14,27 @@ import java.util.List;
 public abstract class Projectile extends ICRogueActor implements Consumable, Interactor {
 
     Sprite sprite;
+    private static final int DEFAULT_DAMAGE = 1;
+    private static final int DEFAULT_MOVE_DURATION = 10;
+    protected int frames = 0;
+    protected int damagePts = 0;
+    private boolean isConsumed = false;
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
+    /**
+     * Default Projectile constructor.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
     public Projectile(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 
     }
-    protected int frames = 0;
-    protected int damagePts = 0;
-    private boolean isConsumed = false;
-    private static final int DEFAULT_DAMAGE = 1;
-    private static final int DEFAULT_MOVE_DURATION = 10;
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
     @Override
     public void consume()  {
