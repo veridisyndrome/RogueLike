@@ -13,6 +13,12 @@ public class LifePoint implements Logic {
     public void damage(float amount) {
         health -= amount;
     }
+
+    public void heal(float amount) {
+        if(health < 3) {
+            health += amount;
+        }
+    }
     @Override
     public boolean isOn() {
         return health > 0;

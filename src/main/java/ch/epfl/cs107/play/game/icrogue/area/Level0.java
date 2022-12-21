@@ -1,25 +1,24 @@
 package ch.epfl.cs107.play.game.icrogue.area;
 
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0KeyRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0StaffRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0TurretRoom;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0 extends Level  {
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
     public Level0() {
-        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 5, 5);
+        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 7, 7);
     }
 
 
     public enum RoomType {
-        TURRET_ROOM(3, Level0TurretRoom::new), // type and number of room STAFF_ROOM(1),
+        TURRET_ROOM(5, Level0TurretRoom::new), // type and number of room STAFF_ROOM(1),
         STAFF_ROOM(1, Level0StaffRoom::new),
         BOSS_KEY(1, coords -> new Level0KeyRoom(coords, BOSS_KEY_ID)),
         SPAWN(1, Level0Room::new),
-        NORMAL(1, Level0Room::new);
+        NORMAL(1, Level0Room::new),
+        HEART_ROOM(2, Level0HeartRoom::new),
+        BOSS_ROOM(1, Level0BossRoom::new);
 
         private final int nbType;
         private final RoomCreator roomCreator;

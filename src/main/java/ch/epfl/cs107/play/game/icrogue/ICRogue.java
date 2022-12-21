@@ -36,7 +36,7 @@ public class ICRogue extends AreaGame {
         }
 
         setCurrentArea(currentLevel.getStartingRoomName(), true);
-        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2), new LifePoint(1));
+        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2), new LifePoint(3));
         getCurrentArea().registerActor(player);
     }
 

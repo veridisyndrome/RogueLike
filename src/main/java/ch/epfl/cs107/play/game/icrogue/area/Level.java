@@ -123,7 +123,7 @@ public abstract class Level implements Logic {
                 }
             }
         }
-        generateRoom(bossCoords, 0);
+        generateRoom(bossCoords, 6);
         setUpConnector(mapStates, roomMap[bossCoords.x][bossCoords.y]);
     }
     protected abstract void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room);
@@ -137,7 +137,6 @@ public abstract class Level implements Logic {
                 }
             }
         }
-
 
         return placedRoomList.get(RandomHelper.roomGenerator.nextInt(placedRoomList.size()));
     }

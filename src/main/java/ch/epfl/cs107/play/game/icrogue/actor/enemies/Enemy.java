@@ -21,5 +21,7 @@ public abstract class Enemy extends ICRogueActor implements Interactor {
         lifePoint.kill();
     }
 
-
+    public void damage(float amount) {
+        lifePoint.damage(amount);
+    }
 }

@@ -18,9 +18,7 @@ public class Win implements Graphics, Logic {
         final TextGraphics text1 = new TextGraphics("GAME OVER", 3, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
 
 
-
         text1.setFontName("Kenney Pixel");
-        text2.setFontName("Kenney Pixel");
         text1.draw(canvas);
     }
 
