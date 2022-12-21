@@ -7,18 +7,17 @@ public class Level0 extends Level  {
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
     public Level0() {
-        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 7, 7);
+        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 4, 4);
     }
 
 
     public enum RoomType {
-        TURRET_ROOM(5, Level0TurretRoom::new), // type and number of room STAFF_ROOM(1),
+        TURRET_ROOM(1, Level0TurretRoom::new), // type and number of room STAFF_ROOM(1),
         STAFF_ROOM(1, Level0StaffRoom::new),
         BOSS_KEY(1, coords -> new Level0KeyRoom(coords, BOSS_KEY_ID)),
         SPAWN(1, Level0Room::new),
         NORMAL(1, Level0Room::new),
-        HEART_ROOM(2, Level0HeartRoom::new),
-        BOSS_ROOM(1, Level0BossRoom::new);
+        HEART_ROOM(2, Level0HeartRoom::new);
 
         private final int nbType;
         private final RoomCreator roomCreator;
@@ -92,6 +91,11 @@ public class Level0 extends Level  {
             setStartingRoomName(coords);
         }
 
+    }
+
+    @Override
+    protected void generateBossRoom(DiscreteCoordinates bossCoords) {
+        setRoom(bossCoords, new Level0BossRoom(bossCoords));
     }
 
     @Override

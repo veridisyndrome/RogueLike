@@ -19,15 +19,16 @@ import java.util.List;
 
 public class Boss extends Enemy {
     private final Orientation[] orientations;
+    private static final float MOVE_DURATION = 0.25f;
     private final static float COOLDOWN = 2.f;
     private float counter = COOLDOWN;
-    private  float movement = .75f;
+    private  float movement = .4f;
     private final ICRogueInteractionHandler handler = new Boss.ICRogueBossInteractionHandler();
     private static final int NB_ORIENTATION = 4;
-    private  Sprite bossDown;
-    private  Sprite bossUp;
-    private  Sprite bossLeft;
-    private  Sprite bossRight;
+    private final Sprite bossDown;
+    private final Sprite bossUp;
+    private final Sprite bossLeft;
+    private final Sprite bossRight;
 
     public Boss(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
         super(area, orientation, coordinates, new LifePoint(10));
@@ -57,7 +58,6 @@ public class Boss extends Enemy {
         super.update(deltaTime);
         counter += deltaTime;
         movement -= deltaTime;
-        System.out.println(movement);
         if (counter >= COOLDOWN) {
             for (Orientation orientation : orientations) {
                 launchWater(orientation);
@@ -66,10 +66,10 @@ public class Boss extends Enemy {
         }
         if(movement <= 0) {
             orientate( Orientation.values()[RandomHelper.roomGenerator.nextInt(NB_ORIENTATION)]);
-            movement = 1.f;
+            movement = .4f;
         }
 
-    //    move()
+        move((int) (MOVE_DURATION / deltaTime));
 
     }
 
@@ -118,6 +118,7 @@ public class Boss extends Enemy {
     private class ICRogueBossInteractionHandler implements ICRogueInteractionHandler {
         @Override
         public void interactWith(Fire fire, boolean isCellInteraction) {
+            ICRogueInteractionHandler.super.interactWith(fire, isCellInteraction);
             if (isCellInteraction) {
                 damage(1);
             }

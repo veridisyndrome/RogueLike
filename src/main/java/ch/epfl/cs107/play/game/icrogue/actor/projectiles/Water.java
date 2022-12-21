@@ -25,9 +25,8 @@ public class Water extends Projectile implements ICRogueInteractionHandler {
         this.damagePts = 1;
         this.frames = 10;
 
-        setSprite(new Sprite("zelda/magicWaterProjectile", 1f, 1f, this, new RegionOfInterest(0, 0, 16, 16), new Vector(0, 0)));
-        Sprite[] spriteFires = Sprite.extractSprites("zelda/magicWaterProjectile", 7,1f, 1f, this, new Vector(0, 0), 16, 16);
-        animation = new Animation(4,spriteFires);
+        Sprite[] spriteFires = Sprite.extractSprites("zelda/magicWaterProjectile", 4,1f, 1f, this, new Vector(0, 0), 32, 32);
+        animation = new Animation(5,spriteFires);
     }
     @Override
     public void consume() {
@@ -43,7 +42,6 @@ public class Water extends Projectile implements ICRogueInteractionHandler {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
         animation.draw(canvas);
     }
 

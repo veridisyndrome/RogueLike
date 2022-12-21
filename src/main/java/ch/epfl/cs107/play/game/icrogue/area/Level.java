@@ -20,14 +20,15 @@ public abstract class Level implements Logic {
     public Level(boolean randomMap, int[] roomsDistribution, DiscreteCoordinates startPosition, int width, int height) {
         this.width = width;
         this.height = height;
+        this.startPosition = startPosition;
+
         if(randomMap) {
             MapState[][] mapStates = generateRandomRoomPlacement(roomsDistribution);
             generateRandomMap(mapStates, roomsDistribution);
         } else {
             generateFixedMap(width, height);
+            this.bossCoords = new DiscreteCoordinates(0,0);
         }
-        this.startPosition = startPosition;
-        this.bossCoords = new DiscreteCoordinates(0,0);
     }
 
 
@@ -123,9 +124,12 @@ public abstract class Level implements Logic {
                 }
             }
         }
-        generateRoom(bossCoords, 6);
+        generateBossRoom(bossCoords);
         setUpConnector(mapStates, roomMap[bossCoords.x][bossCoords.y]);
     }
+
+    protected abstract void generateBossRoom(DiscreteCoordinates bossCoords);
+
     protected abstract void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room);
 
     private DiscreteCoordinates mapPlaced() {
@@ -221,7 +225,7 @@ public abstract class Level implements Logic {
 
     @Override
     public boolean isOn() {
-         return false;
+         return bossCoords != null && roomMap[bossCoords.x][bossCoords.y].isOn();
     }
 
     @Override

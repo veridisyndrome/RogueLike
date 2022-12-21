@@ -55,7 +55,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Animation animationStaffUp;
     private final Animation animationStaffLeft;
     private final Animation animationStaffRight;
-    private  boolean inMovement;
     private boolean isFiring;
     /**
      * Default ICRogueActor constructor.
@@ -98,9 +97,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         animationStaffRight = new Animation(4, waterStaffRight);
 
 
-
         this.lifePoint = lifePoint;
-
     }
 
 
@@ -124,29 +121,20 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN), deltaTime);
 
         timeToFire += deltaTime;
-        fireCooldown += deltaTime;
+
 
         if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.0F) && staffCollected) {
+            isFiring = true;
             launchFire(getOrientation());
-            //System.out.println("3");
             timeToFire = 0;
-            fireCooldown = 0;
         }
 
-        if (fireCooldown < .4f) {
-            isFiring = true;
-        } else {
+        if (timeToFire > .4f) {
             isFiring = false;
         }
 
-        if(keyboard.get(Keyboard.UP).isDown() || keyboard.get(Keyboard.LEFT).isDown() || keyboard.get(Keyboard.RIGHT).isDown() || keyboard.get(Keyboard.DOWN).isDown()) {
-            inMovement = true;
-        } else {
-            inMovement = false;
-        }
         canHaveInteraction = keyboard.get(Keyboard.W).isDown();
 
-        //System.out.println(lifePoint.getHealth());
         super.update(deltaTime);
         animationDown.update(deltaTime);
         animationLeft.update(deltaTime);
@@ -176,7 +164,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
      * @param deltaTime   (float): Elapsed time since last update, in seconds, non-negative
      */
     private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
-        if (b.isDown()) {
+        if (b.isDown() ) {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
                 move((int) (MOVE_DURATION / deltaTime));
@@ -192,7 +180,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     @Override
     public void draw(Canvas canvas) {
         Orientation orientation = getOrientation();
-        if (inMovement && !isFiring) {
+        if (isDisplacementOccurs() && !isFiring) {
             switch (orientation) {
                 case UP -> animationUp.draw(canvas);
                 case RIGHT -> animationRight.draw(canvas);
@@ -206,7 +194,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 case DOWN -> down.draw(canvas);
                 case LEFT -> left.draw(canvas);
             }
-        } else if (isFiring) {
+        } else {
             switch (orientation) {
                 case UP -> animationStaffUp.draw(canvas);
                 case RIGHT -> animationStaffRight.draw(canvas);
@@ -214,6 +202,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 case LEFT -> animationStaffLeft.draw(canvas);
             }
         }
+        lifePoint.draw(canvas);
     }
 
     @Override
