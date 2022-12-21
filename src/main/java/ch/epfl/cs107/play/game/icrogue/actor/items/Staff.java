@@ -19,8 +19,8 @@ public class Staff extends Item {
     public Staff(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 
-        Sprite[] spriteStaff = Sprite.extractSprites("zelda/staff", 8,.5f, .5f, this, new Vector(0, 0), 16, 16);
-        animation = new Animation(1,spriteStaff);
+        Sprite[] spriteStaff = Sprite.extractSprites("zelda/staff", 8,1.f, 1.f, this, new Vector(0, 0), 32, 32);
+        animation = new Animation(7,spriteStaff);
     }
 
 

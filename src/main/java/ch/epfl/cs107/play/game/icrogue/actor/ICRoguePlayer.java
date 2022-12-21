@@ -63,20 +63,20 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         super(area, orientation, position);
         //bas
         down = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteDown = Sprite.extractSprites("zelda/playerDown", 4,.75f, 1.5f, this, new Vector(.15f, .15f), 16, 32);
-        animationDown = new Animation(1,spriteDown);
+        Sprite[] spriteDown = Sprite.extractSprites("zelda/playerDown", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
+        animationDown = new Animation(3,spriteDown);
         // droite
         right = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 32, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteRight = Sprite.extractSprites("zelda/playerRight", 4,.75f, 1.5f, this, new Vector(.15f, .15f), 16, 32);
-        animationRight = new Animation(1,spriteRight);
+        Sprite[] spriteRight = Sprite.extractSprites("zelda/playerRight", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
+        animationRight = new Animation(3,spriteRight);
         // haut
         up = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 64, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteUp = Sprite.extractSprites("zelda/playerUp", 4,.75f, 1.5f, this, new Vector(.15f, .15f), 16, 32);
-        animationUp = new Animation(1,spriteUp);
+        Sprite[] spriteUp = Sprite.extractSprites("zelda/playerUp", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
+        animationUp = new Animation(3,spriteUp);
         // gauche
         left = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteLeft = Sprite.extractSprites("zelda/playerLeft", 4,.75f, 1.5f, this, new Vector(.15f, .15f), 16, 32);
-        animationLeft = new Animation(1,spriteLeft);
+        Sprite[] spriteLeft = Sprite.extractSprites("zelda/playerLeft", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
+        animationLeft = new Animation(3,spriteLeft);
 
         this.lifePoint = lifePoint;
 
