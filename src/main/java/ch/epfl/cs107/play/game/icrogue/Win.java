@@ -16,14 +16,12 @@ public class Win implements Graphics, Logic {
         final Vector anchor = canvas.getTransform().getOrigin().add(0, 2);
 
         final TextGraphics text1 = new TextGraphics("GAME OVER", 3, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
-        final TextGraphics text2 = new TextGraphics("press R to restart game", 4, WHITE, null, 0, false, false, anchor.sub(0,4), CENTER, TOP, 1, 0);
 
 
 
         text1.setFontName("Kenney Pixel");
         text2.setFontName("Kenney Pixel");
         text1.draw(canvas);
-        text2.draw(canvas);
     }
 
     @Override

@@ -16,9 +16,11 @@ public class GameOver implements Graphics, Logic {
         final Vector anchor = canvas.getTransform().getOrigin().add(0, 2);
 
         final TextGraphics text = new TextGraphics("GAME OVER", 2, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
+        final TextGraphics text2 = new TextGraphics("Press R to restart the game", 1, WHITE, null, 0, false, false, anchor.sub(0,4), CENTER, TOP, 1, 0);
 
         text.setFontName("Kenney Pixel");
         text.draw(canvas);
+        text2.draw(canvas);
     }
 
     @Override

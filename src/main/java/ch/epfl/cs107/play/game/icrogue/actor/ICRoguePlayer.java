@@ -4,7 +4,9 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.LifePoint;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.Boss;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
@@ -50,42 +52,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Animation animationRight;
     private  boolean inMovement;
 
-    /**
-     * Default ICRogueActor constructor.
-     * Initialises the orientation sprites.
-     *
-     * @param area        (Area): Owner area. Not null
-     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
-     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
-     * @param lifePoint   (LifePoint): Initial life points of the player. Not null
-     */
-    public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position, LifePoint lifePoint) {
-        super(area, orientation, position);
-        //bas
-        down = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteDown = Sprite.extractSprites("zelda/playerDown", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
-        animationDown = new Animation(3,spriteDown);
-        // droite
-        right = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 32, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteRight = Sprite.extractSprites("zelda/playerRight", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
-        animationRight = new Animation(3,spriteRight);
-        // haut
-        up = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 64, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteUp = Sprite.extractSprites("zelda/playerUp", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
-        animationUp = new Animation(3,spriteUp);
-        // gauche
-        left = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteLeft = Sprite.extractSprites("zelda/playerLeft", 3,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
-        animationLeft = new Animation(3,spriteLeft);
-
-        this.lifePoint = lifePoint;
-
-    }
 
     /**
      *  Cooldown to wait to fire with the staff.
      */
     private float timeToFire = 1.0F;
+    private float fireCooldown = .5f;
 
     /**
      * Simulates a single time step.
@@ -101,10 +73,19 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN), deltaTime);
 
         timeToFire += deltaTime;
+        fireCooldown += deltaTime;
 
         if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.0F) && staffCollected) {
             launchFire(getOrientation());
+            //System.out.println("3");
             timeToFire = 0;
+            fireCooldown = 0;
+        }
+
+        if (fireCooldown < .4f) {
+            isFiring = true;
+        } else {
+            isFiring = false;
         }
 
         if(keyboard.get(Keyboard.UP).isDown() || keyboard.get(Keyboard.LEFT).isDown() || keyboard.get(Keyboard.RIGHT).isDown() || keyboard.get(Keyboard.DOWN).isDown()) {
@@ -119,6 +100,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         animationLeft.update(deltaTime);
         animationRight.update(deltaTime);
         animationUp.update(deltaTime);
+        animationStaffDown.update(deltaTime);
+        animationStaffLeft.update(deltaTime);
+        animationStaffRight.update(deltaTime);
+        animationStaffUp.update(deltaTime);
+
     }
 
     /**
@@ -154,21 +140,26 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     @Override
     public void draw(Canvas canvas) {
         Orientation orientation = getOrientation();
-        if(inMovement) {
-            System.out.println("0");
+        if (inMovement && !isFiring) {
             switch (orientation) {
                 case UP -> animationUp.draw(canvas);
                 case RIGHT -> animationRight.draw(canvas);
                 case DOWN -> animationDown.draw(canvas);
                 case LEFT -> animationLeft.draw(canvas);
             }
-        } else {
-            System.out.println("1");
+        } else if (!isFiring) {
             switch (orientation) {
                 case UP -> up.draw(canvas);
                 case RIGHT -> right.draw(canvas);
                 case DOWN -> down.draw(canvas);
                 case LEFT -> left.draw(canvas);
+            }
+        } else if (isFiring) {
+            switch (orientation) {
+                case UP -> animationStaffUp.draw(canvas);
+                case RIGHT -> animationStaffRight.draw(canvas);
+                case DOWN -> animationStaffDown.draw(canvas);
+                case LEFT -> animationStaffLeft.draw(canvas);
             }
         }
 
@@ -217,6 +208,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 cherry.collect();
             }
         }
+        public void interactWith(Heart heart, boolean isCellInteraction) {
+            if (isCellInteraction) {
+                heart.collect();
+                lifePoint.heal(1.f);
+            }
+        }
 
         @Override
         public void interactWith(Staff staff, boolean isCellInteraction) {
@@ -248,8 +245,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         @Override
         public void interactWith(Arrow arrow, boolean isCellInteraction) {
             ICRogueInteractionHandler.super.interactWith(arrow, isCellInteraction);
-            if (isCellInteraction) {
-                kill();
+            if (isCellInteraction && !arrow.isConsumed()) {
+                lifePoint.damage(1.f);
+                arrow.consume();
             }
         }
     }

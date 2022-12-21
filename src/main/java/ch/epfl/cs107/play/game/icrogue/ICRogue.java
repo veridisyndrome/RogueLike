@@ -2,13 +2,16 @@ package ch.epfl.cs107.play.game.icrogue;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.area.Level0;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
+import ch.epfl.cs107.play.window.Canvas;
 
 
 public class ICRogue extends AreaGame {
@@ -16,6 +19,10 @@ public class ICRogue extends AreaGame {
     protected ICRoguePlayer player;
     private final Win win = new Win();
     private final GameOver gameOver = new GameOver();
+    private LifePoint lifePoint;
+    //private final Sprite fullLife;
+    //private final Sprite midLife;
+    //private final Sprite nullLife;
 
     public void initLevel() {
         currentLevel = new Level0();
@@ -32,6 +39,10 @@ public class ICRogue extends AreaGame {
         player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2), new LifePoint(1));
         getCurrentArea().registerActor(player);
     }
+
+    //fullLife = new Sprite("zelda/fullLife", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32));
+    //midLife = new Sprite("zelda/midLife", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32));
+    //nullLife = new Sprite("zelda/nullLife", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32));
 
 
     @Override
@@ -63,6 +74,19 @@ public class ICRogue extends AreaGame {
     private void reset() {
         begin(getWindow(), getFileSystem());
     }
+
+    /*public void draw(Canvas canvas) {
+        if(lifePoint.getHealth() == 3.f) {
+            System.out.println("A");
+            fullLife.draw(canvas);
+        } else if (lifePoint.getHealth() == 2.f) {
+            System.out.println("B");
+            midLife.draw(canvas);
+        } else {
+            System.out.println("C");
+            nullLife.draw(canvas);
+        }
+    }*/
 
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
