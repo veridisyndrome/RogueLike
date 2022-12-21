@@ -30,6 +30,15 @@ public class Boss extends Enemy {
     private final Sprite bossLeft;
     private final Sprite bossRight;
 
+    /**
+     * Default Boss constructor.
+     * Initialises the orientation sprites.
+     *
+     * @param area         (Area): Owner area. Not null
+     * @param orientation  (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param coordinates  (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     * @param orientations (Orientation): Orientations in which the entity fires. Not null
+     */
     public Boss(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
         super(area, orientation, coordinates, new LifePoint(10));
         this.orientations = orientations;
@@ -46,7 +55,7 @@ public class Boss extends Enemy {
     /**
      * Fires a water ball in the given orientation.
      *
-     * @param orientation (Orientation): Defines the orientation where to fire
+     * @param orientation (Orientation): Defines the orientation where to fire. Not null
      */
     public void launchWater(Orientation orientation) {
         final Water water = new Water(getOwnerArea(), orientation, getCurrentMainCellCoordinates());

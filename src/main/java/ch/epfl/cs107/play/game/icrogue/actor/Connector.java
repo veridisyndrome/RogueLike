@@ -24,13 +24,24 @@ public class Connector extends AreaEntity {
     private final static int NO_KEY_ID = 1; //Default Key ID For Connectors
     private int keyId; //
 
+    /**
+     * Default Connector constructor.
+     * Initialises the orientation sprites.
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     */
+    public Connector(Area area, Orientation orientation, DiscreteCoordinates position) {
+        super(area, orientation, position);
+
+        invisibleDoor = new Sprite("icrogue/invisibleDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
+        lockedDoor = new Sprite("icrogue/lockedDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
+        closedDoor = new Sprite("icrogue/door_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
+    }
 
     public boolean isClosed() {
         return state == ConnectorState.CLOSED;
-    }
-
-    public boolean isLocked() {
-        return state == ConnectorState.LOCKED;
     }
 
     public boolean isOpen() {
@@ -48,18 +59,17 @@ public class Connector extends AreaEntity {
         this.keyId = keyId;
     }
 
-    public boolean tryUnlock(int keyID) {
+    public void tryUnlock(int keyID) {
         if (keyID == this.keyId) {
             open();
-            return true;
         }
-        return false;
     }
 
     public void setDestination(String destinationArea, DiscreteCoordinates destinationCoords) {
         this.destinationArea = destinationArea;
         this.destinationCoords = destinationCoords;
     }
+
     private enum ConnectorState {
         OPEN,
         CLOSED,
@@ -67,20 +77,6 @@ public class Connector extends AreaEntity {
         INVISIBLE
         }
 
-    /**
-     * Default AreaEntity constructor
-     *
-     * @param area        (Area): Owner area. Not null
-     * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
-     * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
-     */
-    public Connector(Area area, Orientation orientation, DiscreteCoordinates position) {
-        super(area, orientation, position);
-
-        invisibleDoor = new Sprite("icrogue/invisibleDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
-        closedDoor = new Sprite("icrogue/door_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
-        lockedDoor = new Sprite("icrogue/lockedDoor_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
-    }
 
     /**
      * Destination Coordinates Getters

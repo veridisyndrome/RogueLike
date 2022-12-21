@@ -56,14 +56,15 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Animation animationStaffLeft;
     private final Animation animationStaffRight;
     private boolean isFiring;
+
     /**
-     * Default ICRogueActor constructor.
+     * Default ICRoguePlayer constructor.
      * Initialises the orientation sprites.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
      * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
-     * @param lifePoint   (LifePoint): Initial life points of the player. Not null
+     * @param lifePoint   (LifePoint): Initial life points of the entity. Not null
      */
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position, LifePoint lifePoint) {
         super(area, orientation, position);
@@ -101,17 +102,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     }
 
 
-    /**
-     *  Cooldown to wait to fire with the staff.
-     */
+    /** Cooldown to wait to fire with the staff.*/
     private float timeToFire = 1.0F;
-    private float fireCooldown = .5f;
 
-    /**
-     * Simulates a single time step.
-     *
-     * @param deltaTime (float): Elapsed time since last update, in seconds, non-negative
-     */
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
 
@@ -150,7 +143,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     /**
      * Fires a fireball in the given orientation.
      *
-     * @param orientation (Orientation): Defines the orientation where to fire
+     * @param orientation (Orientation): Defines the orientation where to fire. Not null
      */
     public void launchFire(Orientation orientation) {
         final Fire fire = new Fire(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
@@ -158,10 +151,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     }
 
     /**
+     * Moves the player in the chosen direction
      *
-     * @param orientation (Orientation): Defines the orientation where to move
-     * @param b           (Button): Button pressed
-     * @param deltaTime   (float): Elapsed time since last update, in seconds, non-negative
+     * @param orientation (Orientation): Defines the orientation where to move. Not null
+     * @param b           (Button): Button pressed. Not null
+     * @param deltaTime   (float): Elapsed time since last update, in seconds, non-negative. Not null
      */
     private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
         if (b.isDown() ) {
@@ -172,11 +166,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         }
     }
 
-    /**
-     * Renders itself on a specified canvas.
-     *
-     * @param canvas target, not null
-     */
     @Override
     public void draw(Canvas canvas) {
         Orientation orientation = getOrientation();
@@ -248,6 +237,13 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 cherry.collect();
             }
         }
+
+        /**
+         * Collects the heart when a cell interaction occurs and increments the life points by 1.
+         *
+         * @param heart             (Heart): heart in the room. Not null
+         * @param isCellInteraction (boolean): verifies the state of the cell interaction. Not null
+         */
         public void interactWith(Heart heart, boolean isCellInteraction) {
             if (isCellInteraction) {
                 heart.collect();
@@ -270,6 +266,14 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 keyHold.add(key.getKeyId());
             }
         }
+
+        //TODO a revoir
+        /**
+         * Unlocks the locked door if the player has the right key
+         *
+         * @param connector         (Connector): Locked connector. Not null
+         * @param isCellInteraction (boolean): verifies the state of the cell interaction. Not null
+         */
 
         public void interactWith(Connector connector, boolean isCellInteraction) {
             if (isCellInteraction) {
@@ -308,6 +312,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     }
 
+    /** @return (boolean): Indicates which connector the player is passing*/
     public Connector getPassingConnector() {
         return passingConnector;
     }

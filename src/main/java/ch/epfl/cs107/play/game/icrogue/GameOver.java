@@ -20,6 +20,7 @@ public class GameOver implements Graphics, Logic {
 
         text.setFontName("Kenney Pixel");
         text2.setFontName("Kenney Pixel");
+
         text.draw(canvas);
         text2.draw(canvas);
     }

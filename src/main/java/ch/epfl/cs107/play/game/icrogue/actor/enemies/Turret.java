@@ -23,16 +23,28 @@ public class Turret extends Enemy {
     private final Sprite turretSprite = new Sprite("icrogue/static_npc", 1.5f, 1.5f, this , null , new Vector(-0.25f, 0));
     private final ICRogueInteractionHandler handler = new Turret.ICRogueTurretInteractionHandler();
 
+    /**
+     * Default Turret constructor.
+     *
+     * @param area         (Area): Owner area. Not null
+     * @param orientation  (Orientation): Initial orientation of the entity in the Area. Not null
+     * @param coordinates  (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     * @param orientations (Orientation): Orientations in which the entity fires
+     */
     public Turret(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
         super(area, orientation, coordinates, new LifePoint(1));
         this.orientations = orientations;
     }
 
+    /**
+     * Fires an arrow in the given orientation.
+     *
+     * @param orientation (Orientation): Defines the orientation where to shoot. Not null
+     */
     public void launchArrow(Orientation orientation) {
         final Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
         getOwnerArea().registerActor(arrow);
     }
-
 
     @Override
     public void update(float deltaTime) {

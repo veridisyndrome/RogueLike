@@ -21,6 +21,15 @@ public abstract class ICRogueRoom extends Area implements Logic {
     private final DiscreteCoordinates roomCoordinates;
     private final List<Connector> connectors;
 
+    /**
+     * Default ICRogueRoom Constructor.
+     * Sets the behavior of the connector in the room.
+     *
+     * @param connectorsCoordinates (List<DiscreteCoordinates>): List of connectors in the room. Not null
+     * @param orientations          (List<Orientation>): List of the connectors' orientations. Not null
+     * @param behaviorName          (String): Name of the behavior. Not null
+     * @param roomCoordinates       (DiscreteCoordinates): Coordinates of the room on the map. Not null
+     */
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations, String behaviorName, DiscreteCoordinates roomCoordinates) {
         this.behaviorName = behaviorName;
         this.roomCoordinates = roomCoordinates;
@@ -45,7 +54,11 @@ public abstract class ICRogueRoom extends Area implements Logic {
         return false;
     }
 
-
+    /**
+     * Creates an area with all the connectors and actors.
+     *
+     * @param window (Window): Window where the area is represented. Not null
+     */
     protected void createArea(Window window) {
         setBehavior(new ICRogueBehavior(window, behaviorName));
         registerActor(new Background(this, behaviorName));
@@ -55,6 +68,13 @@ public abstract class ICRogueRoom extends Area implements Logic {
         }
     }
 
+    /**
+     *
+     *
+     * @param index (int): Index of the  connector. Not null
+     * @param destinationArea (String): Name of the destination area. Not null
+     * @param destinationCoords (DiscreteCoordinates): Coordinates of the destination area. Not null
+     */
     public void setConnectorDestination(int index, String destinationArea, DiscreteCoordinates destinationCoords) {
         connectors.get(index).setDestination(destinationArea, destinationCoords);
     }
