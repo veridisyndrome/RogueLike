@@ -18,9 +18,9 @@ public class LifePoint implements Logic, Graphics {
 
     public LifePoint(float health) {
         this.health = health;
-        fullLife = new Sprite("zelda/fullLife", .75f, .75f, null, new RegionOfInterest(0, 0, 16, 16));
-        midLife = new Sprite("zelda/midLife", .75f, .75f,  null, new RegionOfInterest(0, 0, 16, 16));
-        nullLife = new Sprite("zelda/nullLife", .75f, .75f, null, new RegionOfInterest(0, 0, 16, 16));
+        fullLife = new Sprite("zelda/fullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16));
+        midLife = new Sprite("zelda/midLife2", 2.25f, .75f,  null, new RegionOfInterest(0, 0, 48, 16));
+        nullLife = new Sprite("zelda/nullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16));
     }
 
 

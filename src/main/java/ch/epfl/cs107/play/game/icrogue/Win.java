@@ -16,14 +16,18 @@ public class Win implements Graphics, Logic {
     public void draw(Canvas canvas) {
         final Vector anchor = canvas.getTransform().getOrigin().add(0, 2);
 
-        final TextGraphics text1 = new TextGraphics("YOU WIN", 3, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
+        final TextGraphics text1 = new TextGraphics("YOU WON", 2, WHITE, null, 0, false, false, anchor, CENTER, TOP, 1, 0);
         final TextGraphics text2 = new TextGraphics("Press R to restart the game", 1, WHITE, null, 0, false, false, anchor.sub(0,4), CENTER, TOP, 1, 0);
+        final TextGraphics text3 = new TextGraphics("Press ESCAPE to exit the game", 1, WHITE, null, 0, false, false, anchor.sub(0,5), CENTER, TOP, 1, 0);
 
 
         text1.setFontName("Kenney Pixel");
         text2.setFontName("Kenney Pixel");
+        text3.setFontName("Kenney Pixel");
+
         text1.draw(canvas);
         text2.draw(canvas);
+        text3.draw(canvas);
     }
 
     @Override

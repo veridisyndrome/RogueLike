@@ -29,7 +29,9 @@ public abstract class Level0ItemRoom extends Level0Room implements Logic {
     @Override
     public boolean isOn() {
         for (Item item : items) {
-            if (!item.isCollected()) {
+            if (item.isHeart()) {
+                return true;
+            } else if (!item.isCollected()) {
                 return false;
             }
         }

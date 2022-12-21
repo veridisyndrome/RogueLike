@@ -12,19 +12,17 @@ public class Level0 extends Level  {
 
 
     public enum RoomType {
-        TURRET_ROOM(1, Level0TurretRoom::new), // type and number of room STAFF_ROOM(1),
-        STAFF_ROOM(1, Level0StaffRoom::new),
-        BOSS_KEY(1, coords -> new Level0KeyRoom(coords, BOSS_KEY_ID)),
-        SPAWN(1, Level0Room::new),
-        NORMAL(1, Level0Room::new),
-        HEART_ROOM(2, Level0HeartRoom::new);
+        TURRET_ROOM(1), // type and number of room STAFF_ROOM(1),
+        STAFF_ROOM(1),
+        BOSS_KEY(1),
+        SPAWN(1),
+        NORMAL(1),
+        HEART_ROOM(2);
 
         private final int nbType;
-        private final RoomCreator roomCreator;
 
-        RoomType(int nbType, RoomCreator roomCreator) {
+        RoomType(int nbType) {
             this.nbType = nbType;
-            this.roomCreator = roomCreator;
         }
 
         static int[] getDistribution() {
@@ -33,10 +31,6 @@ public class Level0 extends Level  {
                 typeList[i] = RoomType.values()[i].nbType;
             }
             return typeList;
-        }
-
-        private interface RoomCreator{
-            ICRogueRoom create(DiscreteCoordinates coords);
         }
     }
 
@@ -86,11 +80,18 @@ public class Level0 extends Level  {
 
     @Override
     void generateRoom(DiscreteCoordinates coords, int type) {
-        setRoom(coords, RoomType.values()[type].roomCreator.create(coords));
+        RoomType roomType = RoomType.values()[type];
+        ICRogueRoom room = switch(roomType) {
+            case TURRET_ROOM -> new Level0TurretRoom(coords);
+            case BOSS_KEY -> new Level0KeyRoom(coords, BOSS_KEY_ID);
+            case SPAWN,NORMAL -> new Level0Room(coords);
+            case STAFF_ROOM -> new Level0StaffRoom(coords);
+            case HEART_ROOM -> new Level0HeartRoom(coords);
+        };
+        setRoom(coords, room);
         if (type == 3) {
             setStartingRoomName(coords);
         }
-
     }
 
     @Override

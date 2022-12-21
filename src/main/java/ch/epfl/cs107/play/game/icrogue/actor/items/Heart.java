@@ -28,6 +28,11 @@ public class Heart extends Item implements AreaInteractionVisitor {
     }
 
     @Override
+    public boolean isHeart() {
+        return true;
+    }
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         animation.update(deltaTime);

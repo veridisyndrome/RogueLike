@@ -31,7 +31,6 @@ public abstract class Level implements Logic {
         }
     }
 
-
     void generateFixedMap(int width, int height) {
         roomMap = new ICRogueRoom[width][height];
     }
@@ -93,8 +92,8 @@ public abstract class Level implements Logic {
 
     private DiscreteCoordinates choseRandomRoomToCreate(MapState[][] mapStates)  {
         List<DiscreteCoordinates> linearMap = new ArrayList<>();
-        for(int i = 0; i < mapStates.length; ++i) {
-            for(int j = 0; j < mapStates[i].length; ++j) {
+        for (int i = 0; i < mapStates.length; ++i) {
+            for (int j = 0; j < mapStates[i].length; ++j) {
                 if (mapStates[i][j] == MapState.PLACED || mapStates[i][j] == MapState.EXPLORED) {
                     linearMap.add(new DiscreteCoordinates(i, j));
                 }
@@ -113,7 +112,6 @@ public abstract class Level implements Logic {
                 DiscreteCoordinates coords = choseRandomRoomToCreate(mapStates);
                 generateRoom(coords, type);
                 mapStates[coords.x][coords.y] = MapState.CREATED;
-
             }
         }
 

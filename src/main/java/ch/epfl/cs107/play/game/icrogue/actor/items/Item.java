@@ -21,6 +21,10 @@ public abstract class Item extends CollectableAreaEntity {
         super(area, orientation, position);
     }
 
+    public boolean isHeart() {
+        return false;
+    }
+
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());

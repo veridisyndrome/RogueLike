@@ -37,12 +37,17 @@ public class ICRogue extends AreaGame {
 
     @Override
     public void update(float deltatime){
-        Keyboard keyboard= getWindow().getKeyboard();
+        Keyboard keyboard = getWindow().getKeyboard();
 
         Button buttonR = keyboard.get(Keyboard.R);
         if(buttonR.isDown()){
             reset();
         }
+
+        if (keyboard.get(Keyboard.ESCAPE).isDown()) {
+            System.exit(0);
+        }
+
         if(!player.isAlive()) {
             gameOver.draw(getWindow());
             return;

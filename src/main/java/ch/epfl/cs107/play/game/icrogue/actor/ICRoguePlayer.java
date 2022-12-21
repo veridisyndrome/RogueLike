@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.LifePoint;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Boss;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
@@ -35,10 +36,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private boolean canHaveInteraction;
     private boolean staffCollected;
     private boolean isPassing;
+    private boolean isVisited;
+    private boolean isFiring;
+    private boolean isFighting;
     private Connector passingConnector;
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
     private final List<Integer> keyHold = new ArrayList<>();
-    private boolean isVisited;
     private final LifePoint lifePoint;
 
     public void kill() {
@@ -55,7 +58,10 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Animation animationStaffUp;
     private final Animation animationStaffLeft;
     private final Animation animationStaffRight;
-    private boolean isFiring;
+    private final Animation animationSwordDown;
+    private final Animation animationSwordUp;
+    private final Animation animationSwordLeft;
+    private final Animation animationSwordRight;
 
     /**
      * Default ICRoguePlayer constructor.
@@ -68,22 +74,22 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
      */
     public ICRoguePlayer(Area area, Orientation orientation, DiscreteCoordinates position, LifePoint lifePoint) {
         super(area, orientation, position);
-        //bas
+
         down = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
         Sprite[] spriteDown = Sprite.extractSprites("zelda/playerDown", 4,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
         animationDown = new Animation(4, spriteDown);
-        // droite
-        right = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 32, 16, 32), new Vector(.15f, -.15f));
-        Sprite[] spriteRight = Sprite.extractSprites("zelda/playerRight", 4,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
-        animationRight = new Animation(4, spriteRight);
-        // haut
+
         up = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 64, 16, 32), new Vector(.15f, -.15f));
         Sprite[] spriteUp = Sprite.extractSprites("zelda/playerUp", 4,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
         animationUp = new Animation(4, spriteUp);
-        // gauche
+
         left = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f));
         Sprite[] spriteLeft = Sprite.extractSprites("zelda/playerLeft", 4,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
         animationLeft = new Animation(4, spriteLeft);
+
+        right = new Sprite("zelda/player", .75f, 1.5f, this, new RegionOfInterest(0, 32, 16, 32), new Vector(.15f, -.15f));
+        Sprite[] spriteRight = Sprite.extractSprites("zelda/playerRight", 4,.75f, 1.5f, this, new Vector(.15f, -.15f), 16, 32);
+        animationRight = new Animation(4, spriteRight);
 
         Sprite[] waterStaffDown = Sprite.extractSprites("zelda/playerStaffDown",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
         animationStaffDown = new Animation(4, waterStaffDown);
@@ -97,6 +103,17 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         Sprite[] waterStaffRight = Sprite.extractSprites("zelda/playerStaffRight",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
         animationStaffRight = new Animation(4, waterStaffRight);
 
+        Sprite[] swordDown = Sprite.extractSprites("zelda/playerSwordDown",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
+        animationSwordDown = new Animation(4, swordDown);
+
+        Sprite[] swordUp = Sprite.extractSprites("zelda/playerSwordUp",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
+        animationSwordUp = new Animation(4, swordUp);
+
+        Sprite[] swordLeft = Sprite.extractSprites("zelda/playerSwordLeft",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
+        animationSwordLeft = new Animation(4, swordLeft);
+
+        Sprite[] swordRight = Sprite.extractSprites("zelda/playerSwordRight",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
+        animationSwordRight = new Animation(4, swordRight);
 
         this.lifePoint = lifePoint;
     }
@@ -183,6 +200,16 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 case DOWN -> down.draw(canvas);
                 case LEFT -> left.draw(canvas);
             }
+        } else if (isFighting) {
+            switch (orientation) {
+                case UP -> animationSwordUp.draw(canvas);
+                case RIGHT -> animationSwordRight.draw(canvas);
+                case DOWN -> animationSwordDown.draw(canvas);
+                case LEFT -> animationSwordLeft.draw(canvas);
+            }
+
+            isFighting = false;
+
         } else {
             switch (orientation) {
                 case UP -> animationStaffUp.draw(canvas);
@@ -302,6 +329,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 lifePoint.damage(1.f);
                 water.consume();
             }
+        }
+
+        @Override
+        public void interactWith(Turret turret, boolean isCellInteraction) {
+            ICRogueInteractionHandler.super.interactWith(turret, isCellInteraction);
+            isFighting = true;
         }
 
         @Override

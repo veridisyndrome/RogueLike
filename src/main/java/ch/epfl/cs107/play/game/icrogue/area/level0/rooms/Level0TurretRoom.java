@@ -9,4 +9,5 @@ public class Level0TurretRoom extends Level0EnemyRoom {
         super(roomCoordinates);
         addEnemy(new Turret(this, Orientation.UP,  new DiscreteCoordinates(1,8), Orientation.DOWN, Orientation.RIGHT));
         addEnemy(new Turret(this, Orientation.UP,  new DiscreteCoordinates(8,1), Orientation.UP, Orientation.LEFT));}
+        //addEnemy(new Turret(this, Orientation.UP,  new DiscreteCoordinates(RandomHelper.roomGenerator.nextInt(1,8),RandomHelper.roomGenerator.nextInt(1,8)), Orientation.DOWN, Orientation.RIGHT));
 }

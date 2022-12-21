@@ -40,7 +40,7 @@ public class Boss extends Enemy {
      * @param orientations (Orientation): Orientations in which the entity fires. Not null
      */
     public Boss(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
-        super(area, orientation, coordinates, new LifePoint(10));
+        super(area, orientation, coordinates, new LifePoint(6));
         this.orientations = orientations;
 
         bossDown = new Sprite("zelda/bossDown", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
@@ -73,13 +73,13 @@ public class Boss extends Enemy {
             }
             counter = 0;
         }
+
         if(movement <= 0) {
-            orientate( Orientation.values()[RandomHelper.roomGenerator.nextInt(NB_ORIENTATION)]);
+            orientate(Orientation.values()[RandomHelper.roomGenerator.nextInt(NB_ORIENTATION)]);
             movement = .4f;
         }
 
         move((int) (MOVE_DURATION / deltaTime));
-
     }
 
     @Override
@@ -90,8 +90,6 @@ public class Boss extends Enemy {
             case LEFT -> bossLeft.draw(canvas);
             case RIGHT -> bossRight.draw(canvas);
         }
-
-
     }
 
     @Override
@@ -128,8 +126,9 @@ public class Boss extends Enemy {
         @Override
         public void interactWith(Fire fire, boolean isCellInteraction) {
             ICRogueInteractionHandler.super.interactWith(fire, isCellInteraction);
-            if (isCellInteraction) {
+            if (isCellInteraction && !fire.isConsumed()) {
                 damage(1);
+                fire.consume();
             }
         }
     }

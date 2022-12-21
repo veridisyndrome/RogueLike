@@ -96,8 +96,9 @@ public class Turret extends Enemy {
     private class ICRogueTurretInteractionHandler implements ICRogueInteractionHandler {
         @Override
         public void interactWith(Fire fire, boolean isCellInteraction) {
-            if (isCellInteraction) {
+            if (isCellInteraction && !fire.isConsumed()) {
                 kill();
+                fire.consume();
             }
         }
 
