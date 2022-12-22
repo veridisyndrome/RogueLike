@@ -9,12 +9,12 @@ public class Level0 extends Level  {
 
     /** Default Level0 constructor */
     public Level0() {
-        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 6, 6);
+        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 5, 5);
     }
 
     /** Enumeration of the rooms' types */
     public enum RoomType {
-        TURRET_ROOM(16), // type and number of room STAFF_ROOM(1),
+        TURRET_ROOM(5), // type and number of room STAFF_ROOM(1),
         STAFF_ROOM(1),
         BOSS_KEY(1),
         SPAWN(1),

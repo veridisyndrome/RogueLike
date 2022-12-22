@@ -10,8 +10,8 @@ Nous avons fait le choix de modifier ceci :
 - Nous créons une classe Boss Final, qui se déplace aléatoirement dans la salle (qui choisit une orientation vers laquelle se déplacer tout les deltaTime) en lançant des boules d'eau dans les 4 directions.
 - Nous avons animé tous nos Sprites à l'aide de switchs et de la classe animations fournies au préalable. Ceci permet de les rendre plus réalistes et agréables.
 - Nous affichons en bas à gauche de l'écran 3 coeurs représentant nos points de vie. Tout ceci est fait dans notre classe Life point, chargée de modéliser les points de vie des ennemis et du personnage.
-- Nous avons choisis que les Level0TurretRoom peuvent contenir entre 1 et 3 Turret.
-- Nous avons fait en sorte que les Turret bloquent les flèches reçues par les autres Turret afin d'éviter toute sorte de double dégâts non désidés.
+- Nous avons choisi que les Level0TurretRoom peuvent contenir entre 1 et 3 Turret.
+- Nous avons fait en sorte que les Turret bloquent les flèches reçues par les autres Turret afin d'éviter toute sorte de doubles dégâts non désidés.
 ```
 
 # Classes et interfaces
