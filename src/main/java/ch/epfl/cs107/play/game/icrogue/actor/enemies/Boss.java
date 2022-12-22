@@ -65,9 +65,9 @@ public class Boss extends Enemy {
         }
         if (movement <= 0) {
             orientate(Orientation.values()[RandomHelper.roomGenerator.nextInt(NB_ORIENTATION)]);
+            move((int) (MOVE_DURATION / deltaTime));
             movement = .4f;
         }
-        move((int) (MOVE_DURATION / deltaTime));
     }
 
     /**
