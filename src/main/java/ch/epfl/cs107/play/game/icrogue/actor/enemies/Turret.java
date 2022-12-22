@@ -30,21 +30,11 @@ public class Turret extends Enemy {
      * @param area         (Area): Owner area. Not null
      * @param orientation  (Orientation): Initial orientation of the entity in the Area. Not null
      * @param coordinates  (DiscreteCoordinate): Initial position of the entity in the Area. Not null
-     * @param orientations (Orientation): Orientations in which the entity fires
+     * @param orientations (Orientation): Orientations in which the entity fires. Not null
      */
     public Turret(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
         super(area, orientation, coordinates, new LifePoint(1));
         this.orientations = orientations;
-    }
-
-    /**
-     * Fires an arrow in the given orientation.
-     *
-     * @param orientation (Orientation): Defines the orientation where to shoot. Not null
-     */
-    public void launchArrow(Orientation orientation) {
-        final Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
-        getOwnerArea().registerActor(arrow);
     }
 
     @Override
@@ -57,6 +47,16 @@ public class Turret extends Enemy {
             }
             counter = 0;
         }
+    }
+
+    /**
+     * Fires an arrow in the given orientation.
+     *
+     * @param orientation (Orientation): Defines the orientation where to shoot. Not null
+     */
+    public void launchArrow(Orientation orientation) {
+        final Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
+        getOwnerArea().registerActor(arrow);
     }
 
     @Override
@@ -94,6 +94,7 @@ public class Turret extends Enemy {
         return false;
     }
 
+    /** Handles the interactions between the turret and its environment*/
     private class ICRogueTurretInteractionHandler implements ICRogueInteractionHandler {
         @Override
         public void interactWith(Fire fire, boolean isCellInteraction) {

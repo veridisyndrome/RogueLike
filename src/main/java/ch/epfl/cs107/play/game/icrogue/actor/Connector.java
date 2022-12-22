@@ -14,15 +14,15 @@ import java.util.List;
 
 public class Connector extends AreaEntity {
 
-    private ConnectorState state = ConnectorState.INVISIBLE; //
-    private String destinationArea; // Name Of The Destination Area
-    private DiscreteCoordinates destinationCoords; //Destination Coordinates Of The Connectors
+    private ConnectorState state = ConnectorState.INVISIBLE;
+    private String destinationArea;
+    private DiscreteCoordinates destinationCoords;
     private String destinationAreaName;
-    private final Sprite invisibleDoor; //Sprite for Invisible Door
-    private final Sprite closedDoor; //Sprite for Closed Door
-    private final Sprite lockedDoor; //Sprite for Locked Door
-    private final static int NO_KEY_ID = 1; //Default Key ID For Connectors
-    private int keyId; //
+    private final Sprite invisibleDoor;
+    private final Sprite closedDoor;
+    private final Sprite lockedDoor;
+    private final static int NO_KEY_ID = 1;
+    private int keyId;
 
     /**
      * Default Connector constructor.
@@ -45,6 +45,7 @@ public class Connector extends AreaEntity {
         return state == ConnectorState.CLOSED;
     }
 
+    /** @return (boolean): true if the connector is opened */
     public boolean isOpen() {
         return state == ConnectorState.OPEN;
     }
@@ -53,10 +54,13 @@ public class Connector extends AreaEntity {
     public void open() {
         state = ConnectorState.OPEN;
     }
+
+    /** closes the connector */
     public void close() {
         state = ConnectorState.CLOSED;
     }
 
+    /** locks the connector */
     public void lock(int keyId) {
         state = ConnectorState.LOCKED;
         this.keyId = keyId;
@@ -73,11 +77,7 @@ public class Connector extends AreaEntity {
         }
     }
 
-    public void setDestination(String destinationArea, DiscreteCoordinates destinationCoords) {
-        this.destinationArea = destinationArea;
-        this.destinationCoords = destinationCoords;
-    }
-
+    /** Enumeration of the connectors' states */
     private enum ConnectorState {
         OPEN,
         CLOSED,
@@ -131,10 +131,6 @@ public class Connector extends AreaEntity {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
-    }
-
-    public String getDestinationArea() {
-        return destinationArea;
     }
 
 }

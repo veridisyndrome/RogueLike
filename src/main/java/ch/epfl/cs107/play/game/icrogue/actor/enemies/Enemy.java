@@ -24,7 +24,7 @@ public abstract class Enemy extends ICRogueActor implements Interactor {
         this.lifePoint = lifePoint;
     }
 
-    /** @return (boolean): true if the entity's health is greater than 0*/
+    /** @return (boolean): true if the entity's health is greater than 0 */
     public boolean isAlive() {
         return lifePoint.isOn();
     }
@@ -37,7 +37,7 @@ public abstract class Enemy extends ICRogueActor implements Interactor {
     /**
      * Reduces the entity's health.
      *
-     * @param amount (float): amount to subtract
+     * @param amount (float): amount subtracted from the entity's health. Greater than 0
      */
     public void damage(float amount) {
         lifePoint.damage(amount);

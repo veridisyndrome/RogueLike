@@ -21,6 +21,7 @@ public class Water extends Projectile implements ICRogueInteractionHandler {
 
     /**
      * Default Water constructor.
+     * Initialises the animation.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
@@ -61,6 +62,7 @@ public class Water extends Projectile implements ICRogueInteractionHandler {
         other.acceptInteraction(handler, isCellInteraction);
     }
 
+    /** Handles the interactions between the water and its environment*/
     private class WaterInteractionHandler implements ICRogueInteractionHandler  {
         @Override
         public void interactWith(ICRogueBehavior.ICRogueCell cell, boolean isCellInteraction) {

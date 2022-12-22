@@ -9,10 +9,15 @@ import ch.epfl.cs107.play.window.Canvas;
 public class LifePoint implements Logic, Graphics {
 
     private float health;
-    private Sprite fullLife;
-    private Sprite midLife;
-    private Sprite nullLife;
+    private final Sprite fullLife;
+    private final Sprite midLife;
+    private final Sprite nullLife;
 
+    /**
+     * Default LifePoint constructor.
+     *
+     * @param health (float): amount that defines how much damage an entity can take. Greater than 0
+     */
     public LifePoint(float health) {
         this.health = health;
         fullLife = new Sprite("zelda/fullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16));
@@ -20,7 +25,11 @@ public class LifePoint implements Logic, Graphics {
         nullLife = new Sprite("zelda/nullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16));
     }
 
-
+    /**
+     * Decreases the entity's health.
+     *
+     * @param amount (float): amount subtracted from the entity's health. Greater than 0
+     */
     public void damage(float amount) {
         health -= amount;
     }
@@ -54,10 +63,6 @@ public class LifePoint implements Logic, Graphics {
     @Override
     public float getIntensity() {
         return isOn() ? 1 : 0;
-    }
-
-    public void kill() {
-        health = 0;
     }
 
     @Override
