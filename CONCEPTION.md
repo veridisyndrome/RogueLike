@@ -61,3 +61,4 @@ Cette dernière implémente Graphics et Logic afin de pouvoir afficher l'écran 
 
 Cette dernière implémente Graphics et Logic afin de pouvoir afficher l'écran de fin "You Win" en fonction de notre méthode isOn qui nous permet de savoir si le Boss Final a été battu.
 
+***

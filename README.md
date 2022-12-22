@@ -51,3 +51,5 @@ Néanmoins, si ces dernières vous touches vous perdez 1 point de vie.
 Pour pouvoir combattre le boss final vous devrez récupérer une clé qui se cache dans une salle.
 Le boss possède 10 points de vie que l'on doit lui enlever à l'aide de nos boules de feu.
 
+***
+
