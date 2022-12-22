@@ -43,13 +43,13 @@ public class Boss extends Enemy {
         super(area, orientation, coordinates, new BossLifePoint(6));
         this.orientations = orientations;
 
-        bossDown = new Sprite("zelda/trueBossDown", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
+        bossDown = new Sprite("zelda/bossDown", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
 
-        bossUp = new Sprite("zelda/trueBossUp", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
+        bossUp = new Sprite("zelda/bossUp", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
 
-        bossLeft = new Sprite("zelda/trueBossLeft", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
+        bossLeft = new Sprite("zelda/bossLeft", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
 
-        bossRight = new Sprite("zelda/trueBossRight", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
+        bossRight = new Sprite("zelda/bossRight", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
     }
 
     @Override
