@@ -17,7 +17,11 @@ Nous avons fait le choix de modifier ceci :
 
 ## Classe LifePoint
 
-Elle permet de gérer les points de vie de notre personnage principal et de nos ennemies. Elle implémente Logic et Graphics pour pouvoir faire usage de la méthode isOn et afficher les points de vie du personnage en bas à gauche de l'écran.
+Elle permet de gérer les points de vie de notre personnage principal et de nos ennemies. Elle implémente Logic et Graphics pour pouvoir faire usage de la méthode isOn et afficher les points de vie du personnage en haut à gauche de l'écran.
+
+## Classe BossLifePoint
+
+Elle hérite de la classe précédente et se comporte de manière analogue à celle-ci pour modéliser la vie du boss final.
 
 ***
 

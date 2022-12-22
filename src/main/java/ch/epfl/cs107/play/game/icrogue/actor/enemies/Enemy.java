@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.LifePoint;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRogueActor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Canvas;
 
 public abstract class Enemy extends ICRogueActor implements Interactor {
     private final LifePoint lifePoint;
@@ -41,5 +42,10 @@ public abstract class Enemy extends ICRogueActor implements Interactor {
      */
     public void damage(float amount) {
         lifePoint.damage(amount);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        lifePoint.draw(canvas);
     }
 }

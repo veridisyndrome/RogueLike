@@ -3,8 +3,11 @@ package ch.epfl.cs107.play.game.icrogue;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.math.RegionOfInterest;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
+
+import java.sql.SQLOutput;
 
 public class LifePoint implements Logic, Graphics {
 
@@ -20,9 +23,9 @@ public class LifePoint implements Logic, Graphics {
      */
     public LifePoint(float health) {
         this.health = health;
-        fullLife = new Sprite("zelda/fullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16));
-        midLife = new Sprite("zelda/midLife2", 2.25f, .75f,  null, new RegionOfInterest(0, 0, 48, 16));
-        nullLife = new Sprite("zelda/nullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16));
+        fullLife = new Sprite("zelda/fullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16), new Vector(0,9));
+        midLife = new Sprite("zelda/midLife2", 2.25f, .75f,  null, new RegionOfInterest(0, 0, 48, 16), new Vector(0,9));
+        nullLife = new Sprite("zelda/nullLife2", 2.25f, .75f, null, new RegionOfInterest(0, 0, 48, 16), new Vector(0,9));
     }
 
     /**
@@ -48,6 +51,10 @@ public class LifePoint implements Logic, Graphics {
     /** Sets the entity's health to 0 */
     public void kill() {
         health = 0;
+    }
+
+    protected float getHealth() {
+        return health;
     }
 
     @Override

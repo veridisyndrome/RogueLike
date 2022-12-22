@@ -5,7 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icrogue.LifePoint;
+import ch.epfl.cs107.play.game.icrogue.BossLifePoint;
 import ch.epfl.cs107.play.game.icrogue.RandomHelper;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Water;
@@ -40,16 +40,16 @@ public class Boss extends Enemy {
      * @param orientations (Orientation): Orientations in which the entity fires. Not null
      */
     public Boss(Area area, Orientation orientation, DiscreteCoordinates coordinates, Orientation... orientations) {
-        super(area, orientation, coordinates, new LifePoint(6));
+        super(area, orientation, coordinates, new BossLifePoint(6));
         this.orientations = orientations;
 
-        bossDown = new Sprite("zelda/bossDown", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
+        bossDown = new Sprite("zelda/trueBossDown", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
 
-        bossUp = new Sprite("zelda/bossUp", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
+        bossUp = new Sprite("zelda/trueBossUp", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
 
-        bossLeft = new Sprite("zelda/bossLeft", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
+        bossLeft = new Sprite("zelda/trueBossLeft", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
 
-        bossRight = new Sprite("zelda/bossRight", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
+        bossRight = new Sprite("zelda/trueBossRight", 2f, 1.5f, this, new RegionOfInterest(0, 0, 32, 32), new Vector(-0.5f, -.15f));
     }
 
     @Override
@@ -82,6 +82,7 @@ public class Boss extends Enemy {
 
     @Override
     public void draw(Canvas canvas) {
+        super.draw(canvas);
         switch (getOrientation()) {
             case DOWN -> bossDown.draw(canvas);
             case UP -> bossUp.draw(canvas);
