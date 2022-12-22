@@ -40,6 +40,7 @@ public class Connector extends AreaEntity {
         closedDoor = new Sprite("icrogue/door_"+orientation.ordinal(), (orientation.ordinal()+1)%2+1, orientation.ordinal()%2+1, this);
     }
 
+    /** @return (boolean): true if the connector is closed */
     public boolean isClosed() {
         return state == ConnectorState.CLOSED;
     }
@@ -47,6 +48,8 @@ public class Connector extends AreaEntity {
     public boolean isOpen() {
         return state == ConnectorState.OPEN;
     }
+
+    /** opens the connector */
     public void open() {
         state = ConnectorState.OPEN;
     }
@@ -59,6 +62,11 @@ public class Connector extends AreaEntity {
         this.keyId = keyId;
     }
 
+    /**
+     * Unlocks the locked connector if the entity has the key with the matching identifier.
+     *
+     * @param keyID (int): Key identifier
+     */
     public void tryUnlock(int keyID) {
         if (keyID == this.keyId) {
             open();
@@ -77,14 +85,17 @@ public class Connector extends AreaEntity {
         INVISIBLE
         }
 
-
-    /**
-     * Destination Coordinates Getters
-     *
-     */
+    public void setDestination(String destinationArea, DiscreteCoordinates destinationCoords) {
+        this.destinationArea = destinationArea;
+        this.destinationCoords = destinationCoords;
+    }
 
     public DiscreteCoordinates getDestinationCoords() {
         return destinationCoords;
+    }
+
+    public String getDestinationArea() {
+        return destinationArea;
     }
 
     @Override

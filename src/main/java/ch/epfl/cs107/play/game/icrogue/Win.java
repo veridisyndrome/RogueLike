@@ -8,7 +8,6 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import static ch.epfl.cs107.play.math.TextAlign.Horizontal.CENTER;
 import static ch.epfl.cs107.play.math.TextAlign.Vertical.*;
-import static java.awt.Color.RED;
 import static java.awt.Color.WHITE;
 
 public class Win implements Graphics, Logic {

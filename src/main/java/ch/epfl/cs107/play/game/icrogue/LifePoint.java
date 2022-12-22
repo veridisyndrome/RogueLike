@@ -1,10 +1,7 @@
 package ch.epfl.cs107.play.game.icrogue;
 
 import ch.epfl.cs107.play.game.actor.Graphics;
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
-import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
-import ch.epfl.cs107.play.math.Positionable;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
@@ -28,11 +25,22 @@ public class LifePoint implements Logic, Graphics {
         health -= amount;
     }
 
+    /**
+     * Increases the entity's health.
+     *
+     * @param amount (float): amount added to the entity's health. Greater than 0
+     */
     public void heal(float amount) {
-        if(health < 3) {
+        if (health < 3) {
             health += amount;
         }
     }
+
+    /** Sets the entity's health to 0 */
+    public void kill() {
+        health = 0;
+    }
+
     @Override
     public boolean isOn() {
         return health > 0;

@@ -14,7 +14,7 @@ public abstract class Level0ItemRoom extends Level0Room implements Logic {
         super(roomCoordinates);
     }
 
-    void addItem(Item item) {
+    protected void addItem(Item item) {
         items.add(item);
     }
 

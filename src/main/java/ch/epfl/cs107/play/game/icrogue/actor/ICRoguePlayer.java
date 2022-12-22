@@ -31,25 +31,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Sprite right;
     private final Sprite up;
     private final Sprite left;
-
     private static final float MOVE_DURATION = 0.25f;
-    private boolean canHaveInteraction;
-    private boolean staffCollected;
-    private boolean isPassing;
-    private boolean isVisited;
-    private boolean isFiring;
-    private boolean isFighting;
-    private Connector passingConnector;
-    private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
-    private final List<Integer> keyHold = new ArrayList<>();
-    private final LifePoint lifePoint;
 
-    public void kill() {
-        lifePoint.kill();
-    }
-    public boolean isAlive() {
-        return lifePoint.isOn();
-    }
+    private final List<Integer> keyHold = new ArrayList<>();
+    private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
+    private Connector passingConnector;
+    private final LifePoint lifePoint;
     private final Animation animationDown;
     private final Animation animationUp;
     private final Animation animationLeft;
@@ -58,14 +45,10 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final Animation animationStaffUp;
     private final Animation animationStaffLeft;
     private final Animation animationStaffRight;
-    private final Animation animationSwordDown;
-    private final Animation animationSwordUp;
-    private final Animation animationSwordLeft;
-    private final Animation animationSwordRight;
 
     /**
      * Default ICRoguePlayer constructor.
-     * Initialises the orientation sprites.
+     * Initialises the orientation sprites and the animations.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
@@ -103,24 +86,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         Sprite[] waterStaffRight = Sprite.extractSprites("zelda/playerStaffRight",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
         animationStaffRight = new Animation(4, waterStaffRight);
 
-        Sprite[] swordDown = Sprite.extractSprites("zelda/playerSwordDown",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
-        animationSwordDown = new Animation(4, swordDown);
-
-        Sprite[] swordUp = Sprite.extractSprites("zelda/playerSwordUp",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
-        animationSwordUp = new Animation(4, swordUp);
-
-        Sprite[] swordLeft = Sprite.extractSprites("zelda/playerSwordLeft",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
-        animationSwordLeft = new Animation(4, swordLeft);
-
-        Sprite[] swordRight = Sprite.extractSprites("zelda/playerSwordRight",4,1.3f, 1.5f, this, new Vector(.02f, -.15f), 32, 32);
-        animationSwordRight = new Animation(4, swordRight);
-
         this.lifePoint = lifePoint;
     }
-
-
-    /** Cooldown to wait to fire with the staff.*/
-    private float timeToFire = 1.0F;
 
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
@@ -131,7 +98,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN), deltaTime);
 
         timeToFire += deltaTime;
-
 
         if (keyboard.get(Keyboard.X).isDown() && (timeToFire >= 1.0F) && staffCollected) {
             isFiring = true;
@@ -147,14 +113,19 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
         super.update(deltaTime);
         animationDown.update(deltaTime);
+        animationUp.update(deltaTime);
         animationLeft.update(deltaTime);
         animationRight.update(deltaTime);
-        animationUp.update(deltaTime);
+
         animationStaffDown.update(deltaTime);
+        animationStaffUp.update(deltaTime);
         animationStaffLeft.update(deltaTime);
         animationStaffRight.update(deltaTime);
-        animationStaffUp.update(deltaTime);
+    }
 
+    /** @return (boolean): true if the entity's health is greater than 0 */
+    public boolean isAlive() {
+        return lifePoint.isOn();
     }
 
     /**

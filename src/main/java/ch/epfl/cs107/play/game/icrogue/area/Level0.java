@@ -7,17 +7,17 @@ public class Level0 extends Level  {
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
     public Level0() {
-        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 4, 4);
+        super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 5, 5);
     }
 
 
     public enum RoomType {
-        TURRET_ROOM(1), // type and number of room STAFF_ROOM(1),
+        TURRET_ROOM(3), // type and number of room STAFF_ROOM(1),
         STAFF_ROOM(1),
         BOSS_KEY(1),
         SPAWN(1),
         NORMAL(1),
-        HEART_ROOM(2);
+        HEART_ROOM(6);
 
         private final int nbType;
 
@@ -104,7 +104,7 @@ public class Level0 extends Level  {
         DiscreteCoordinates coords = room.getCoords();
         for (Level0Room.Level0Connectors connectors : Level0Room.Level0Connectors.values()) {
             DiscreteCoordinates destinationCoords = coords.jump(connectors.getOrientation().toVector());
-            if((destinationCoords.x >= 0 && destinationCoords.x < roomsPlacement.length) && (destinationCoords.y >= 0 && destinationCoords.y < roomsPlacement[0].length)) {
+            if ((destinationCoords.x >= 0 && destinationCoords.x < roomsPlacement.length) && (destinationCoords.y >= 0 && destinationCoords.y < roomsPlacement[0].length)) {
                 MapState destinationState = roomsPlacement[destinationCoords.x][destinationCoords.y];
                 if (destinationState == MapState.BOSS_ROOM || destinationState == MapState.CREATED) {
                     setRoomConnector(coords, "icrogue/level0" + destinationCoords.x + destinationCoords.y, connectors);

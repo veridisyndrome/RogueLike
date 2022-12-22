@@ -40,7 +40,7 @@ public class ICRogue extends AreaGame {
         Keyboard keyboard = getWindow().getKeyboard();
 
         Button buttonR = keyboard.get(Keyboard.R);
-        if(buttonR.isDown()){
+        if (buttonR.isDown()){
             reset();
         }
 
@@ -48,7 +48,7 @@ public class ICRogue extends AreaGame {
             System.exit(0);
         }
 
-        if(!player.isAlive()) {
+        if (!player.isAlive()) {
             gameOver.draw(getWindow());
             return;
         }
@@ -57,16 +57,12 @@ public class ICRogue extends AreaGame {
             return;
         }
         super.update(deltatime);
-        if(player.isPassing()) {
+        if (player.isPassing()) {
             getCurrentArea().unregisterActor(player);
             setCurrentArea(player.getPassingConnector().getDestinationArea(), false);
             player.switchRoom(getCurrentArea(), player.getPassingConnector().getDestinationCoords());
             getCurrentArea().registerActor(player);
         }
-    }
-
-    private void reset() {
-        begin(getWindow(), getFileSystem());
     }
 
 
@@ -76,6 +72,10 @@ public class ICRogue extends AreaGame {
             return true;
         }
         return false;
+    }
+
+    private void reset() {
+        begin(getWindow(), getFileSystem());
     }
 
     @Override

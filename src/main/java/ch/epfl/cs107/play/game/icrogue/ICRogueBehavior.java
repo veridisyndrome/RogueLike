@@ -18,7 +18,7 @@ public class ICRogueBehavior extends AreaBehavior {
         super(window, name);
         int height = getHeight();
         int width = getWidth();
-        for(int y = 0; y < height; y++) {
+        for (int y = 0; y < height; y++) {
             for (int x = 0; x < width ; x++) {
                 final ICRogueCellType type = ICRogueCellType.getTypeFromCode(getRGB(height-1-y, x));
                 setCell(x,y, new ICRogueCell(x,y, type));
@@ -44,7 +44,7 @@ public class ICRogueBehavior extends AreaBehavior {
             final ICRogueCellType[] values = ICRogueCellType.values();
 
             for (ICRogueCellType value : values) {
-                if(value.code == code){
+                if (value.code == code) {
                     return value;
                 }
             }

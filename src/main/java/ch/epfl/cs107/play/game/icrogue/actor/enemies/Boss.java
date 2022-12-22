@@ -18,17 +18,17 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.List;
 
 public class Boss extends Enemy {
-    private final Orientation[] orientations;
     private static final float MOVE_DURATION = 0.25f;
     private final static float COOLDOWN = 2.f;
     private float counter = COOLDOWN;
-    private  float movement = .4f;
-    private final ICRogueInteractionHandler handler = new Boss.ICRogueBossInteractionHandler();
+    private float movement = .4f;
     private static final int NB_ORIENTATION = 4;
+    private final Orientation[] orientations;
     private final Sprite bossDown;
     private final Sprite bossUp;
     private final Sprite bossLeft;
     private final Sprite bossRight;
+    private final ICRogueInteractionHandler handler = new Boss.ICRogueBossInteractionHandler();
 
     /**
      * Default Boss constructor.
@@ -52,16 +52,6 @@ public class Boss extends Enemy {
         bossRight = new Sprite("zelda/bossRight", .75f, 1.5f, this, new RegionOfInterest(0, 0, 16, 32), new Vector(.15f, -.15f));
     }
 
-    /**
-     * Fires a water ball in the given orientation.
-     *
-     * @param orientation (Orientation): Defines the orientation where to fire. Not null
-     */
-    public void launchWater(Orientation orientation) {
-        final Water water = new Water(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
-        getOwnerArea().registerActor(water);
-    }
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -73,13 +63,21 @@ public class Boss extends Enemy {
             }
             counter = 0;
         }
-
-        if(movement <= 0) {
+        if (movement <= 0) {
             orientate(Orientation.values()[RandomHelper.roomGenerator.nextInt(NB_ORIENTATION)]);
             movement = .4f;
         }
-
         move((int) (MOVE_DURATION / deltaTime));
+    }
+
+    /**
+     * Fires a water ball in the given orientation.
+     *
+     * @param orientation (Orientation): Defines the orientation where to fire. Not null
+     */
+    public void launchWater(Orientation orientation) {
+        final Water water = new Water(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
+        getOwnerArea().registerActor(water);
     }
 
     @Override

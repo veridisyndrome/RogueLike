@@ -22,7 +22,7 @@ public abstract class Level implements Logic {
         this.height = height;
         this.startPosition = startPosition;
 
-        if(randomMap) {
+        if (randomMap) {
             MapState[][] mapStates = generateRandomRoomPlacement(roomsDistribution);
             generateRandomMap(mapStates, roomsDistribution);
         } else {
@@ -31,9 +31,26 @@ public abstract class Level implements Logic {
         }
     }
 
+    protected abstract void generateBossRoom(DiscreteCoordinates bossCoords);
+    protected abstract void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room);
+    abstract void generateRoom(DiscreteCoordinates coords, int type);
+    protected enum MapState {
+        NULL, // Empty space
+        PLACED, // The room has been placed but not yet explored by the room placement algorithm
+        EXPLORED, // The room has been placed and explored by the algorithm
+        BOSS_ROOM, // The room is a boss room
+
+        CREATED; // The room has been instantiated in the room map
+        @Override
+        public String toString() {
+            return Integer.toString(ordinal());
+        }
+    }
+
     void generateFixedMap(int width, int height) {
         roomMap = new ICRogueRoom[width][height];
     }
+
     public MapState[][] generateRandomRoomPlacement(int[] roomsDistribution) {
         int nbRooms = 0;
 
@@ -62,33 +79,31 @@ public abstract class Level implements Logic {
             }
             mapStates[randomChosenRoom.x][randomChosenRoom.y] = MapState.EXPLORED;
 
-            if (freeSlots.size() == 0) {
-                continue;
+            if (freeSlots.size() != 0) {
+
+                int toPlace = RandomHelper.roomGenerator.nextInt(1, 1+Math.min(freeSlots.size(), roomsToPlace));
+                List<Integer> indexes = new ArrayList<>();
+
+                for (int i = 0; i < freeSlots.size(); i++) {
+                    indexes.add(i);
+                }
+
+                List<Integer> roomIndexes = RandomHelper.chooseKInList(toPlace, indexes);
+
+                for (Integer index : roomIndexes) {
+                    mapStates[freeSlots.get(index).x][freeSlots.get(index).y] = MapState.PLACED;
+                }
+                printMap(mapStates);
+
+                roomsToPlace -= toPlace;
             }
 
-            int toPlace = RandomHelper.roomGenerator.nextInt(1, 1+Math.min(freeSlots.size(), roomsToPlace));
-            List<Integer> indexes = new ArrayList<>();
-
-            for (int i = 0; i < freeSlots.size(); i++) {
-                indexes.add(i);
-            }
-
-            List<Integer> roomIndexes = RandomHelper.chooseKInList(toPlace, indexes);
-
-            for(Integer index : roomIndexes) {
-                mapStates[freeSlots.get(index).x][freeSlots.get(index).y] = MapState.PLACED;
-            }
-            printMap(mapStates);
-
-            roomsToPlace -= toPlace;
         }
         bossCoords = mapPlaced();
         mapStates[bossCoords.x][bossCoords.y] = MapState.BOSS_ROOM;
 
         return mapStates;
     }
-
-    abstract void generateRoom(DiscreteCoordinates coords, int type);
 
     private DiscreteCoordinates choseRandomRoomToCreate(MapState[][] mapStates)  {
         List<DiscreteCoordinates> linearMap = new ArrayList<>();
@@ -126,15 +141,11 @@ public abstract class Level implements Logic {
         setUpConnector(mapStates, roomMap[bossCoords.x][bossCoords.y]);
     }
 
-    protected abstract void generateBossRoom(DiscreteCoordinates bossCoords);
-
-    protected abstract void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room);
-
     private DiscreteCoordinates mapPlaced() {
         List<DiscreteCoordinates> placedRoomList = new ArrayList<>();
         for(int i = 0; i < mapStates.length; ++i) {
             for(int j = 0; j < mapStates[i].length; ++j) {
-                if(mapStates[i][j] == MapState.PLACED) {
+                if (mapStates[i][j] == MapState.PLACED) {
                     placedRoomList.add(new DiscreteCoordinates(i, j));
                 }
             }
@@ -144,7 +155,7 @@ public abstract class Level implements Logic {
     }
 
     private boolean freeSlots(DiscreteCoordinates coords) {
-        if((coords.x > 0 && coords.x < width) && (coords.y > 0 && coords.y < height)) {
+        if ((coords.x > 0 && coords.x < width) && (coords.y > 0 && coords.y < height)) {
             return mapStates[coords.x][coords.y] == MapState.NULL;
         }
         return false;
@@ -172,22 +183,10 @@ public abstract class Level implements Logic {
         System.out.println();
     }
 
-    protected enum MapState {
-        NULL, // Empty space
-        PLACED, // The room has been placed but not yet explored by the room placement algorithm
-        EXPLORED, // The room has been placed and explored by the algorithm
-        BOSS_ROOM, // The room is a boss room
-        CREATED; // The room has been instantiated in the room map
-
-        @Override
-        public String toString() {
-            return Integer.toString(ordinal());
-        }
-    }
-
     protected void setRoom(DiscreteCoordinates coords, ICRogueRoom roomArea) {
         roomMap[coords.x][coords.y] = roomArea;
     }
+
 
     protected void setRoomConnectorDestination(DiscreteCoordinates coords, String destination, ConnectorInRoom connector) {
         final ICRogueRoom room = roomMap[coords.x][coords.y];

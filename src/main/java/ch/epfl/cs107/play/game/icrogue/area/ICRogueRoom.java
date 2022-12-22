@@ -16,10 +16,11 @@ import java.util.List;
 
 
 public abstract class ICRogueRoom extends Area implements Logic {
-
+    private boolean isPressed = false;
     private final String behaviorName;
     private final DiscreteCoordinates roomCoordinates;
     private final List<Connector> connectors;
+
 
     /**
      * Default ICRogueRoom Constructor.
@@ -40,20 +41,6 @@ public abstract class ICRogueRoom extends Area implements Logic {
         }
     }
 
-    @Override
-    public final float getCameraScaleFactor() {
-        return 11;
-    }
-
-    @Override
-    public boolean begin(Window window, FileSystem fileSystem) {
-        if (super.begin(window, fileSystem)) {
-            createArea(window);
-            return true;
-        }
-        return false;
-    }
-
     /**
      * Creates an area with all the connectors and actors.
      *
@@ -67,7 +54,6 @@ public abstract class ICRogueRoom extends Area implements Logic {
             registerActor(connector);
         }
     }
-
     /**
      *
      *
@@ -78,8 +64,16 @@ public abstract class ICRogueRoom extends Area implements Logic {
     public void setConnectorDestination(int index, String destinationArea, DiscreteCoordinates destinationCoords) {
         connectors.get(index).setDestination(destinationArea, destinationCoords);
     }
+    public void closeConnector(int index) {
+        connectors.get(index).close();
+    }
+    public void lockConnector(int index, int keyID) {
+        connectors.get(index).lock(keyID);
+    }
 
-    boolean isPressed = false;
+    public DiscreteCoordinates getCoords() {
+        return roomCoordinates;
+    }
 
     @Override
     public void update(float deltaTime) {
@@ -107,9 +101,9 @@ public abstract class ICRogueRoom extends Area implements Logic {
 
         if (keyboard.get(Keyboard.T).isDown() && !isPressed) {
             for (Connector connector : connectors) {
-                if(connector.isOpen()) {
+                if (connector.isOpen()) {
                     connector.close();
-                } else if(connector.isClosed()){
+                } else if (connector.isClosed()){
                     connector.open();
                 }
             }
@@ -117,14 +111,17 @@ public abstract class ICRogueRoom extends Area implements Logic {
         isPressed = keyboard.get(Keyboard.T).isDown();
     }
 
-    public void closeConnector(int index) {
-        connectors.get(index).close();
-    }
-    public void lockConnector(int index, int keyID) {
-        connectors.get(index).lock(keyID);
+    @Override
+    public final float getCameraScaleFactor() {
+        return 11;
     }
 
-    public DiscreteCoordinates getCoords() {
-        return roomCoordinates;
+    @Override
+    public boolean begin(Window window, FileSystem fileSystem) {
+        if (super.begin(window, fileSystem)) {
+            createArea(window);
+            return true;
+        }
+        return false;
     }
 }

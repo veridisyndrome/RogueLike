@@ -21,21 +21,6 @@ public class Level0Room extends ICRogueRoom {
         this.roomCoordinates = roomCoordinates;
     }
 
-    @Override
-    public boolean isOn() {
-        return true;
-    }
-
-    @Override
-    public boolean isOff() {
-        return false;
-    }
-
-    @Override
-    public float getIntensity() {
-        return 0;
-    }
-
     public enum Level0Connectors implements ConnectorInRoom {
         W(new DiscreteCoordinates(0, 4), new DiscreteCoordinates(8, 5), Orientation.LEFT),
         S(new DiscreteCoordinates(4, 0), new DiscreteCoordinates(5, 8), Orientation.DOWN),
@@ -45,7 +30,6 @@ public class Level0Room extends ICRogueRoom {
         private final DiscreteCoordinates position;
         private final DiscreteCoordinates destination;
         private final Orientation orientation;
-
         public Orientation getOrientation() {
             return orientation;
         }
@@ -54,16 +38,6 @@ public class Level0Room extends ICRogueRoom {
             this.position = position;
             this.destination = destination;
             this.orientation = orientation;
-        }
-
-        @Override
-        public int getIndex() {
-            return ordinal();
-        }
-
-        @Override
-        public DiscreteCoordinates getDestination() {
-            return destination;
         }
 
         static List<Orientation> getAllConnectorsOrientation() {
@@ -81,11 +55,36 @@ public class Level0Room extends ICRogueRoom {
             }
             return positionList;
         }
-    }
 
+        @Override
+        public int getIndex() {
+            return ordinal();
+        }
+
+        @Override
+        public DiscreteCoordinates getDestination() {
+            return destination;
+        }
+
+    }
     @Override
     public String getTitle() {
         return "icrogue/level0" + roomCoordinates.x + roomCoordinates.y;
+    }
+
+    @Override
+    public boolean isOn() {
+        return true;
+    }
+
+    @Override
+    public boolean isOff() {
+        return false;
+    }
+
+    @Override
+    public float getIntensity() {
+        return 0;
     }
 }
 

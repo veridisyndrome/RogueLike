@@ -68,7 +68,7 @@ public class Arrow extends Projectile implements ICRogueInteractionHandler {
     private class ArrowInteractionHandler implements ICRogueInteractionHandler {
         @Override
         public void interactWith(ICRogueBehavior.ICRogueCell cell, boolean isCellInteraction) {
-            if((cell.getType() == HOLE) || (cell.getType() == WALL)) {
+            if ((cell.getType() == HOLE) || (cell.getType() == WALL)) {
                 Arrow.this.consume();
             }
         }
