@@ -15,6 +15,7 @@ public class Heart extends Item implements AreaInteractionVisitor {
 
     /**
      * Default Heart constructor.
+     * Initialises the animation.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
@@ -28,14 +29,14 @@ public class Heart extends Item implements AreaInteractionVisitor {
     }
 
     @Override
-    public boolean isHeart() {
-        return true;
-    }
-
-    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         animation.update(deltaTime);
+    }
+
+    @Override
+    public boolean isHeart() {
+        return true;
     }
 
     @Override

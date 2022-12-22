@@ -5,7 +5,6 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.LifePoint;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Boss;
-import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
@@ -27,6 +26,15 @@ import java.util.List;
 
 
 public class ICRoguePlayer extends ICRogueActor implements Interactor {
+    /** Cooldown to wait to fire with the staff. */
+    private float timeToFire = 1f;
+
+    private boolean canHaveInteraction;
+    private boolean staffCollected;
+    private boolean isPassing;
+    private boolean isVisited;
+    private boolean isFiring;
+
     private final Sprite down;
     private final Sprite right;
     private final Sprite up;
@@ -139,19 +147,47 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     }
 
     /**
-     * Moves the player in the chosen direction
+     * Moves the player in the chosen direction.
      *
      * @param orientation (Orientation): Defines the orientation where to move. Not null
      * @param b           (Button): Button pressed. Not null
      * @param deltaTime   (float): Elapsed time since last update, in seconds, non-negative. Not null
      */
     private void moveIfPressed(Orientation orientation, Button b, float deltaTime) {
-        if (b.isDown() ) {
+        if (b.isDown()) {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
                 move((int) (MOVE_DURATION / deltaTime));
             }
         }
+    }
+
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
+    }
+
+    /** @return (boolean): true if the entity is switching room */
+    public boolean isPassing() {
+        return isPassing;
+    }
+
+    /**
+     * Places the player in the destination room.
+     *
+     * @param dest (Area): Owner area. Not null
+     * @param coords (DiscreteCoordinates): coordinates of the destination room. Not null
+     */
+    public void switchRoom(Area dest, DiscreteCoordinates coords) {
+        setOwnerArea(dest);
+        setCurrentPosition(coords.toVector());
+        resetMotion();
+        isPassing = false;
+        isVisited = false;
+    }
+
+    /** @return (boolean): Indicates which connector the player is passing*/
+    public Connector getPassingConnector() {
+        return passingConnector;
     }
 
     @Override
@@ -171,16 +207,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 case DOWN -> down.draw(canvas);
                 case LEFT -> left.draw(canvas);
             }
-        } else if (isFighting) {
-            switch (orientation) {
-                case UP -> animationSwordUp.draw(canvas);
-                case RIGHT -> animationSwordRight.draw(canvas);
-                case DOWN -> animationSwordDown.draw(canvas);
-                case LEFT -> animationSwordLeft.draw(canvas);
-            }
-
-            isFighting = false;
-
         } else {
             switch (orientation) {
                 case UP -> animationStaffUp.draw(canvas);
@@ -212,32 +238,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         other.acceptInteraction(handler, isCellInteraction);
     }
 
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
-    }
-
-    public boolean isPassing() {
-        return isPassing;
-    }
-
-    public void switchRoom(Area dest, DiscreteCoordinates coords) {
-        setOwnerArea(dest);
-        setCurrentPosition(coords.toVector());
-        resetMotion();
-        isPassing = false;
-        isVisited = false;
-    }
-
     public class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler {
-        @Override
-        public void interactWith(Cherry cherry, boolean isCellInteraction) {
-            if (isCellInteraction) {
-                cherry.collect();
-            }
-        }
-
         /**
-         * Collects the heart when a cell interaction occurs and increments the life points by 1.
+         * Collects the heart when a cell interaction occurs and increments the entity's health by 1.
          *
          * @param heart             (Heart): heart in the room. Not null
          * @param isCellInteraction (boolean): verifies the state of the cell interaction. Not null
@@ -246,6 +249,30 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if (isCellInteraction) {
                 heart.collect();
                 lifePoint.heal(1.f);
+            }
+        }
+
+        /**
+         * Unlocks the locked door if the player has the key with the matching identifier.
+         *
+         * @param connector         (Connector): Locked connector. Not null
+         * @param isCellInteraction (boolean): verifies the state of the cell interaction. Not null
+         */
+        public void interactWith(Connector connector, boolean isCellInteraction) {
+            if (isCellInteraction) {
+                isPassing = true;
+                passingConnector = connector;
+            } else {
+                for (int keyID : keyHold) {
+                    connector.tryUnlock(keyID);
+                }
+            }
+        }
+
+        @Override
+        public void interactWith(Cherry cherry, boolean isCellInteraction) {
+            if (isCellInteraction) {
+                cherry.collect();
             }
         }
 
@@ -262,25 +289,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if (isCellInteraction) {
                 key.collect();
                 keyHold.add(key.getKeyId());
-            }
-        }
-
-        //TODO a revoir
-        /**
-         * Unlocks the locked door if the player has the right key
-         *
-         * @param connector         (Connector): Locked connector. Not null
-         * @param isCellInteraction (boolean): verifies the state of the cell interaction. Not null
-         */
-
-        public void interactWith(Connector connector, boolean isCellInteraction) {
-            if (isCellInteraction) {
-                isPassing = true;
-                passingConnector = connector;
-            } else {
-                for (int keyID : keyHold) {
-                    connector.tryUnlock(keyID);
-                }
             }
         }
 
@@ -301,23 +309,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 water.consume();
             }
         }
-
-        @Override
-        public void interactWith(Turret turret, boolean isCellInteraction) {
-            ICRogueInteractionHandler.super.interactWith(turret, isCellInteraction);
-            isFighting = true;
-        }
-
         @Override
         public void interactWith(Boss boss, boolean isCellInteraction) {
             ICRogueInteractionHandler.super.interactWith(boss, isCellInteraction);
-            lifePoint.damage(1);
+            if (isCellInteraction) {
+                lifePoint.damage(3.f);
+            }
         }
-
-    }
-
-    /** @return (boolean): Indicates which connector the player is passing*/
-    public Connector getPassingConnector() {
-        return passingConnector;
     }
 }

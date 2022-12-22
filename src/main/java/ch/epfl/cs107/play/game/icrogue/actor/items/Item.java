@@ -21,6 +21,7 @@ public abstract class Item extends CollectableAreaEntity {
         super(area, orientation, position);
     }
 
+    /** @return (boolean): true if the item type is a Heart*/
     public boolean isHeart() {
         return false;
     }

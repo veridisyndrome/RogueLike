@@ -22,6 +22,7 @@ public class Fire extends Projectile implements ICRogueInteractionHandler{
 
     /**
      * Default Fire constructor.
+     * Initialises the animation.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
@@ -37,15 +38,15 @@ public class Fire extends Projectile implements ICRogueInteractionHandler{
         animation = new Animation(4,spriteFires);
     }
     @Override
-    public void consume() {
-        super.consume();
-        getOwnerArea().unregisterActor(this);
-    }
-
-    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         animation.update(deltaTime);
+    }
+
+    @Override
+    public void consume() {
+        super.consume();
+        getOwnerArea().unregisterActor(this);
     }
 
     @Override
@@ -64,6 +65,7 @@ public class Fire extends Projectile implements ICRogueInteractionHandler{
         other.acceptInteraction(handler, isCellInteraction);
     }
 
+    /** Handles the interactions between the fire and its environment*/
     private class FireInteractionHandler implements ICRogueInteractionHandler  {
         @Override
         public void interactWith(ICRogueBehavior.ICRogueCell cell, boolean isCellInteraction) {

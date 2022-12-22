@@ -21,6 +21,7 @@ public class Arrow extends Projectile implements ICRogueInteractionHandler {
 
     /**
      * Default Arrow constructor.
+     * Initialises the sprite.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
@@ -65,6 +66,7 @@ public class Arrow extends Projectile implements ICRogueInteractionHandler {
         other.acceptInteraction(handler, isCellInteraction);
     }
 
+    /** Handles the interactions between the arrow and its environment*/
     private class ArrowInteractionHandler implements ICRogueInteractionHandler {
         @Override
         public void interactWith(ICRogueBehavior.ICRogueCell cell, boolean isCellInteraction) {

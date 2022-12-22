@@ -18,6 +18,7 @@ public class Staff extends Item {
 
     /**
      * Default Staff constructor.
+     * Initialises the animation.
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
