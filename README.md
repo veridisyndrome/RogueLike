@@ -16,7 +16,7 @@ Pour gagner il faudra récupérer une clé pour déverrouiller la salle dans laq
 
 ```
 Commandes de base:
-- Fléches directionnelles: Déplacement;
+- Flèches directionnelles: Déplacement;
 - W: Ramasse le bâton/ouvre la porte verrouillée si en possession de la bonne clé;
 - X: Lance des boules de feu (bâton nécessaire);
 - R: Génère un niveau aléatoire et relance la partie;
@@ -24,10 +24,10 @@ Commandes de base:
 
 Commandes pour développeurs:
 - O: Ouvre un passage sur tous les côtés de la salle;
-- T: Ouvre/ferme dans les salles non-complétées.
-- L: Vérouille/dévérouille la porte de gauche.
+- T: Ouvre/ferme dans les salles non complétées.
+- L: Vérouille/déverouille la porte de gauche.
 
-N.B.: les objets non-cités sont ramassés au contact avec le joueur.
+N.B.: les objets non cités sont ramassés au contact avec le joueur.
 
 ```
 
