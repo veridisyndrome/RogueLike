@@ -14,7 +14,7 @@ public class Level0 extends Level  {
 
     /** Enumeration of the rooms' types */
     public enum RoomType {
-        TURRET_ROOM(3), // type and number of room STAFF_ROOM(1),
+        TURRET_ROOM(4), // type and number of room STAFF_ROOM(1),
         STAFF_ROOM(1),
         BOSS_KEY(1),
         SPAWN(1),
