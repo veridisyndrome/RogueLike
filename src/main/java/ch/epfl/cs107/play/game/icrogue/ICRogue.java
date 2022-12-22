@@ -17,6 +17,7 @@ public class ICRogue extends AreaGame {
     private final Win win = new Win();
     private final GameOver gameOver = new GameOver();
 
+    /** Starts the game by generating the map of the level and creating the player*/
     public void initLevel() {
         currentLevel = new Level0();
 
@@ -32,8 +33,6 @@ public class ICRogue extends AreaGame {
         player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, new DiscreteCoordinates(2,2), new LifePoint(3));
         getCurrentArea().registerActor(player);
     }
-
-
 
     @Override
     public void update(float deltatime){
@@ -65,7 +64,6 @@ public class ICRogue extends AreaGame {
         }
     }
 
-
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             initLevel();
@@ -74,6 +72,7 @@ public class ICRogue extends AreaGame {
         return false;
     }
 
+    /** Reset the game*/
     private void reset() {
         begin(getWindow(), getFileSystem());
     }

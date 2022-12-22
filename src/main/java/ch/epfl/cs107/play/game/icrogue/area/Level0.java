@@ -6,21 +6,28 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class Level0 extends Level  {
     private static final int PART_1_KEY_ID = 3;
     private static final int BOSS_KEY_ID = 4;
+
+    /** Default Level0 constructor */
     public Level0() {
         super(true, RoomType.getDistribution(), new DiscreteCoordinates(2, 2), 5, 5);
     }
 
-
+    /** Enumeration of the rooms' types */
     public enum RoomType {
         TURRET_ROOM(3), // type and number of room STAFF_ROOM(1),
         STAFF_ROOM(1),
         BOSS_KEY(1),
         SPAWN(1),
         NORMAL(1),
-        HEART_ROOM(6);
+        HEART_ROOM(3);
 
         private final int nbType;
 
+        /**
+         * Default RoomType constructor.
+         *
+         * @param nbType (int): defines the number of existing room types. Greater that 0
+         */
         RoomType(int nbType) {
             this.nbType = nbType;
         }
@@ -38,6 +45,7 @@ public class Level0 extends Level  {
         generateMap2();
     }
 
+    /** Generate a first beforehand-generated map.*/
     private void generateMap1() {
         DiscreteCoordinates room00 = new DiscreteCoordinates(0, 0);
         setRoom(room00, new Level0KeyRoom(room00, PART_1_KEY_ID));
@@ -49,6 +57,7 @@ public class Level0 extends Level  {
         setRoomConnector(room10, "icrogue/level000", Level0Room.Level0Connectors.W);
     }
 
+    /** Generate a second beforehand-generated map.*/
     private void generateMap2() {
         DiscreteCoordinates room00 = new DiscreteCoordinates(0, 0);
         setRoom(room00, new Level0TurretRoom(room00));

@@ -10,20 +10,25 @@ import java.util.List;
 public abstract class Level0EnemyRoom extends Level0Room {
     private final List<Enemy> enemies;
 
+    /**
+     * Default Level0EnemyRoom constructor.
+     *
+     * @param roomCoordinates (DiscreteCoordinates): Coordinate of the room on the level's map. Not null
+     * @param enemies         (List<Enemy>): List of the enemies that will be present in the corresponding room. Not null
+     */
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates, List<Enemy> enemies) {
         super(roomCoordinates);
         this.enemies = enemies;
     }
 
+    /**
+     * Alternative Level0EnemyRoom constructor.
+     *
+     * @param roomCoordinates (DiscreteCoordinates): Coordinate of the room on the level's map. Not null
+     */
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
        this(roomCoordinates, new ArrayList<>());
     }
-
-    protected void addEnemy(Enemy enemy) {
-        enemies.add(enemy);
-    }
-
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -34,6 +39,15 @@ public abstract class Level0EnemyRoom extends Level0Room {
                 --i;
             }
         }
+    }
+
+    /**
+     * Adds the enemy to the room.
+     *
+     * @param enemy (Enemy): enemy added to the room. Not null
+     */
+    protected void addEnemy(Enemy enemy) {
+        enemies.add(enemy);
     }
 
     @Override

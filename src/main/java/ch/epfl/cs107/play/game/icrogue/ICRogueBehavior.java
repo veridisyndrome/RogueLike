@@ -26,6 +26,7 @@ public class ICRogueBehavior extends AreaBehavior {
         }
     }
 
+    /** Enumeration of the cells' types */
     public enum ICRogueCellType {
         NONE(0,false),
         GROUND(-16777216, true),
@@ -35,6 +36,12 @@ public class ICRogueBehavior extends AreaBehavior {
         private final boolean isWalkable;
         private final int code;
 
+        /**
+         * Default ICRogueCellType constructor.
+         *
+         * @param code       (int): code corresponding to its cell type
+         * @param isWalkable (boolean): defines the given cell is walkable or not
+         */
         ICRogueCellType(int code, boolean isWalkable){
             this.code = code;
             this.isWalkable = isWalkable;
@@ -55,7 +62,15 @@ public class ICRogueBehavior extends AreaBehavior {
     public class ICRogueCell extends Cell {
 
         private final ICRogueCellType type;
-        public  ICRogueCell(int x, int y, ICRogueCellType type){
+
+        /**
+         * Default ICRogueCell constructor.
+         *
+         * @param x    (int): defines the x coordinate of the cell
+         * @param y    (int): defines the y coordinate of the cell
+         * @param type (ICRogueCellType): defines the type of the given cell.
+         */
+        public ICRogueCell(int x, int y, ICRogueCellType type){
             super(x, y);
             this.type = type;
         }

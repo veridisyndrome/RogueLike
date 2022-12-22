@@ -15,12 +15,17 @@ public class Level0Room extends ICRogueRoom {
 
     private final DiscreteCoordinates roomCoordinates;
 
-
+    /**
+     * Default Level0Room constructor.
+     *
+     * @param roomCoordinates (DiscreteCoordinates): Coordinate of the room on the level's map. Not null
+     */
     public Level0Room(DiscreteCoordinates roomCoordinates) {
         super(Level0Connectors.getAllConnectorsPosition(), Level0Connectors.getAllConnectorsOrientation(), "icrogue/Level0Room", roomCoordinates);
         this.roomCoordinates = roomCoordinates;
     }
 
+    /** Enumeration of the connectors' orientations */
     public enum Level0Connectors implements ConnectorInRoom {
         W(new DiscreteCoordinates(0, 4), new DiscreteCoordinates(8, 5), Orientation.LEFT),
         S(new DiscreteCoordinates(4, 0), new DiscreteCoordinates(5, 8), Orientation.DOWN),
@@ -34,6 +39,11 @@ public class Level0Room extends ICRogueRoom {
             return orientation;
         }
 
+        /**
+         * Default Level0Connectors constructor.
+         *
+         * @param position (DiscreteCoordinates): Coordinate of the room on the level's map. Not null
+         */
         Level0Connectors(DiscreteCoordinates position, DiscreteCoordinates destination, Orientation orientation) {
             this.position = position;
             this.destination = destination;
@@ -67,6 +77,7 @@ public class Level0Room extends ICRogueRoom {
         }
 
     }
+
     @Override
     public String getTitle() {
         return "icrogue/level0" + roomCoordinates.x + roomCoordinates.y;

@@ -10,10 +10,20 @@ import java.util.ArrayList;
 public abstract class Level0ItemRoom extends Level0Room implements Logic {
     private final ArrayList<Item> items = new ArrayList<>();
 
+    /**
+     * Default Level0ItemRoom constructor.
+     *
+     * @param roomCoordinates (DiscreteCoordinates): Coordinate of the room on the level's map. Not null
+     */
     public Level0ItemRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
     }
 
+    /**
+     * Adds the Item to the room.
+     *
+     * @param item (Item): item added to the room. Not null
+     */
     protected void addItem(Item item) {
         items.add(item);
     }

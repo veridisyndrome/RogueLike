@@ -162,10 +162,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         }
     }
 
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
-    }
-
     /** @return (boolean): true if the entity is switching room */
     public boolean isPassing() {
         return isPassing;
@@ -188,6 +184,10 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     /** @return (boolean): Indicates which connector the player is passing*/
     public Connector getPassingConnector() {
         return passingConnector;
+    }
+
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICRogueInteractionHandler) v).interactWith(this, isCellInteraction);
     }
 
     @Override
